@@ -29,18 +29,15 @@ from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
-from .models import get_user_email
+from .models import get_user
 
 url_signer = URLSigner(session)
 
 @action('index')
-@action.uses('index.html', db, auth, url_signer)
+@action.uses('index.html', db, auth.user)
 def index():
-    return dict(
-        # COMPLETE: return here any signed URLs you need.
-        # my_callback_url = URL('my_callback', signer=url_signer),
-        # get_tasks_url=URL('get_all_tasks', signer=url_signer),
-    )
+    rows = db(db.task.created_by == get_user()).select()
+    return dict(rows=rows)
 
 @action("create_task", method="POST")
 @action.uses(db, auth.user)

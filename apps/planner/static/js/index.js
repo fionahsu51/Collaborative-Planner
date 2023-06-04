@@ -32,7 +32,7 @@ let init = (app) => {
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
-        add_task: app.add_task
+        add_task: app.add_task,
     };
 
     // This creates the Vue instance.
