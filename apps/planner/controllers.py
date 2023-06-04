@@ -38,5 +38,19 @@ url_signer = URLSigner(session)
 def index():
     return dict(
         # COMPLETE: return here any signed URLs you need.
-        my_callback_url = URL('my_callback', signer=url_signer),
+        # my_callback_url = URL('my_callback', signer=url_signer),
+        # get_tasks_url=URL('get_all_tasks', signer=url_signer),
     )
+
+@action("create_task", method="POST")
+@action.uses(db, auth.user)
+def create_task():
+    # Implement. 
+    title = request.json.get('title')
+    description = request.json.get('description')
+    db.task.insert(
+        title=title,
+        description=description
+    )
+    db.commit()
+    return "ok"
