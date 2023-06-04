@@ -20,4 +20,19 @@ def get_time():
 #
 ## always commit your models to avoid problems later
 
+db.define_table(
+    'task',
+    Field('user_id', 'reference auth_user'),
+    Field('title', requires=IS_NOT_EMPTY()),
+    Field('description'),
+    Field('day_selected'),
+    auth.signature
+)
+
+db.define_table(
+    'day',
+    Field('day_name'),
+    auth.signature
+)
+
 db.commit()
