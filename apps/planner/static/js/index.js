@@ -15,6 +15,7 @@ let init = (app) => {
         new_task_day: "Sunday",
         task_list: [],
         me: "",
+        make_addition: "F",
     };
 
     app.enumerate = (a) => {
