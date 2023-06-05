@@ -12,7 +12,6 @@ let init = (app) => {
         // Complete as you see fit.
         new_task_title: "",
         new_task_description: "",
-        rows: [],
     };
 
     app.enumerate = (a) => {
@@ -25,25 +24,15 @@ let init = (app) => {
     app.add_task = function () {
         const message = { title: app.vue.new_task_title, description: app.vue.new_task_description };
         axios.post("../create_task", message).then(function() {
-            app.vue.new_task_title = "";
-            app.vue.new_task_description = "";
-            app.get_all_tasks();
+            // app.vue.new_message = "";
+            // app.get_all_posts();
         } );
     };
-
-    app.get_all_tasks = function () {
-        axios.get(get_tasks_url)
-            .then(function (response){
-                app.vue.rows = response.data.r;
-                console.log(response)
-            });
-    }
 
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
         add_task: app.add_task,
-        get_all_tasks: app.get_all_tasks,
     };
 
     // This creates the Vue instance.
@@ -57,7 +46,6 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
-        app.get_all_tasks();
     };
 
     // Call to the initializer.
