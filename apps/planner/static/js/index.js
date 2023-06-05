@@ -12,7 +12,9 @@ let init = (app) => {
         // Complete as you see fit.
         new_task_title: "",
         new_task_description: "",
+        new_task_day: "Sunday",
         task_list: [],
+        me: "",
     };
 
     app.enumerate = (a) => {
@@ -23,11 +25,12 @@ let init = (app) => {
     };
 
     app.add_task = function () {
-        const message = { title: app.vue.new_task_title, description: app.vue.new_task_description };
+        console.log("IM INSIDE THE ADD TASK FUNCTION");
+        const message = { title: app.vue.new_task_title, description: app.vue.new_task_description, day_selected: app.vue.new_task_day };
         axios.post("../create_task", message).then(function() {
             app.vue.new_task_title = "";
             app.vue.new_task_description = "";
-            app.get_all_posts();
+            app.get_all_tasks();
         } );
     };
 
@@ -35,6 +38,7 @@ let init = (app) => {
         axios.get(get_tasks_url)
             .then(function (response){
                 app.vue.task_list = response.data.r;
+                app.vue.me = response.data.me;
             });
     };
 

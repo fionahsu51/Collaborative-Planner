@@ -6,18 +6,218 @@
 }
 </style>
 
-
 <div class="section" id="vue-target" v-cloak>
-  <!-- Put here your Vue.js template -->
-  <h1 class="title">Testing Tasks Table</h1>
-   <!-- this was originally class="container" -->
+   <h1 class="title">Testing Tasks Table</h1>
+
+   <!-- ACTUAL TABLE STUFF GOES HERE IN THIS DIV -->
    <div>
-      <table class="table is-striped is-fullwidth">
-         <div class="box" v-for="r in task_list">
-            R IS THIS: {{r.task.title}}
-            {{r.task.description}}
+      <div class="columns is-variable is-1">
+
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>Sunday</strong>
+               __________________
+            </div>
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Sunday'">
+               <header class="card-header">
+                  <p class="card-header-title">
+                  {{r.task.title}}
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                  {{r.task.description}}
+                  </div>
+               </div>
+               <footer class="card-footer" v-show="r.task.created_by==me">
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
          </div>
-      </table>
+            
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>Monday</strong>
+               __________________
+            </div>
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Monday'">
+               <header class="card-header">
+                  <p class="card-header-title">
+                  {{r.task.title}}
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                  {{r.task.description}}
+                  </div>
+               </div>
+               <footer class="card-footer" v-show="r.task.created_by==me">
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
+         </div>
+
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>Tuesday</strong>
+               __________________
+            </div>
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Tuesday'">
+               <header class="card-header">
+                  <p class="card-header-title">
+                  {{r.task.title}}
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                  {{r.task.description}}
+                  </div>
+               </div>
+               <footer class="card-footer" v-show="r.task.created_by==me">
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
+         </div>
+
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>Wednesday</strong>
+               __________________
+            </div>
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Wednesday'">
+               <header class="card-header">
+                  <p class="card-header-title">
+                  {{r.task.title}}
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                  {{r.task.description}}
+                  </div>
+               </div>
+               <footer class="card-footer" v-show="r.task.created_by==me">
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
+         </div>
+
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>Thursday</strong>
+               __________________
+            </div>
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Thursday'">
+               <header class="card-header">
+                  <p class="card-header-title">
+                  {{r.task.title}}
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                  {{r.task.description}}
+                  </div>
+               </div>
+               <footer class="card-footer" v-show="r.task.created_by==me">
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
+         </div>
+
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>Friday</strong>
+               __________________
+            </div>
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Friday'">
+               <header class="card-header">
+                  <p class="card-header-title">
+                  {{r.task.title}}
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                  {{r.task.description}}
+                  </div>
+               </div>
+               <footer class="card-footer" v-show="r.task.created_by==me">
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
+         </div>
+
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>Saturday</strong>
+               __________________
+            </div>
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Saturday'">
+               <header class="card-header">
+                  <p class="card-header-title">
+                  {{r.task.title}}
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                  {{r.task.description}}
+                  </div>
+               </div>
+               <footer class="card-footer" v-show="r.task.created_by==me">
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
+         </div>
+
+      </div>
+   </div>
+
+   <!-- ADDING NEW TABLE CONTENT GOES HERE IN THIS DIV -->
+   <div class="container mt-3">
+      <h1 class="title mt-6">Add a new task</h1>
+      <div class="block">
+         <p>TASK TITLE</p>
+         <textarea class="input" placeholder="Add a task title" rows="2" v-model="new_task_title"></textarea>
+         <p>TASK DESCRIPTION</p>
+         <textarea class="textarea" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
+         <p>Please choose a day to add the task to:</p>
+         <span>
+            <button class="button" @click="new_task_day='Sunday'">
+               <span>Sunday</span>
+            </button>
+            <button class="button" @click="new_task_day='Monday'">
+               <span>Monday</span>
+            </button>
+            <button class="button" @click="new_task_day='Tuesday'">
+               <span>Tuesday</span>
+            </button>
+            <button class="button" @click="new_task_day='Wednesday'">
+               <span>Wednesday</span>
+            </button>
+            <button class="button" @click="new_task_day='Thursday'">
+               <span>Thursday</span>
+            </button>
+            <button class="button" @click="new_task_day='Friday'">
+               <span>Friday</span>
+            </button>
+            <button class="button" @click="new_task_day='Saturday'">
+               <span>Saturday</span>
+            </button>
+         </span>
+         <div class="field">
+            <div class="control">
+               <button class="button is-link" @click="add_task">
+                  <span class="icon"><i class="fa fa-plus"></i></span>
+                  <span>Add task</span>
+               </button>
+            </div>
+         </div>
+      </div>
    </div>
 
 </div>

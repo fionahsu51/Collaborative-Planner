@@ -50,9 +50,10 @@ def index():
 def get_all_tasks():
     # connect TASKS table with the AUTH_USER table using "join"
     r = db(db.task).select(join=db.auth_user.on(db.task.created_by == db.auth_user.id)).as_list()
-    print("HERE ARE THE ROWS: ", r)
+    # print("HERE ARE THE ROWS: ", r)
     return dict(
         r=r,
+        me=get_user(),
         )
 
 @action("create_task", method="POST")
@@ -61,10 +62,12 @@ def create_task():
     # Implement. 
     title = request.json.get('title')
     description = request.json.get('description')
-    print("- THE TITLE OF THE TASK IS :", title, "\n- THE DESCRIPTION IS: ", description)
+    day_selected = request.json.get('day_selected')
+    # print("- THE TITLE OF THE TASK IS :", title, "\n- THE DESCRIPTION IS: ", description)
     db.task.insert(
         title=title,
-        description=description
+        description=description,
+        day_selected=day_selected
     )
     db.commit()
     return "ok"
