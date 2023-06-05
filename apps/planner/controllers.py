@@ -30,14 +30,30 @@ from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user
+import uuid
+import random
 
 url_signer = URLSigner(session)
 
 @action('index')
-@action.uses('index.html', db, auth.user)
+@action.uses('index.html', db, auth.user, url_signer)
 def index():
-    rows = db(db.task.created_by == get_user()).select()
-    return dict(rows=rows)
+    # rows = db(db.task.created_by == get_user()).select()
+    # return dict(rows=rows)
+    return dict(
+        get_tasks_url = URL('get_all_tasks', signer=url_signer),
+    )
+
+
+@action("get_all_tasks")
+@action.uses(db, auth.user)
+def get_all_tasks():
+    # connect TASKS table with the AUTH_USER table using "join"
+    r = db(db.task).select(join=db.auth_user.on(db.task.created_by == db.auth_user.id)).as_list()
+    print("HERE ARE THE ROWS: ", r)
+    return dict(
+        r=r,
+        )
 
 @action("create_task", method="POST")
 @action.uses(db, auth.user)
@@ -45,6 +61,7 @@ def create_task():
     # Implement. 
     title = request.json.get('title')
     description = request.json.get('description')
+    print("- THE TITLE OF THE TASK IS :", title, "\n- THE DESCRIPTION IS: ", description)
     db.task.insert(
         title=title,
         description=description
