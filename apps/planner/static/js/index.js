@@ -22,10 +22,13 @@ let init = (app) => {
     };
 
     app.add_task = function () {
-        const message = { title: app.vue.new_task_title, description: app.vue.new_task_description };
-        axios.post("../create_task", message).then(function() {
-            // app.vue.new_message = "";
-            // app.get_all_posts();
+        const task = { 
+            title: app.vue.new_task_title, 
+            description: app.vue.new_task_description,
+        };
+        axios.post("../create_task", task).then(function() {
+            app.vue.new_task_title = "";
+            app.vue.new_task_description = "";
         } );
     };
 
