@@ -34,10 +34,21 @@ from .models import get_user
 url_signer = URLSigner(session)
 
 @action('index')
-@action.uses('index.html', db, auth.user)
+@action.uses('index.html', db, auth.user, url_signer)
 def index():
-    rows = db(db.task.created_by == get_user()).select()
-    return dict(rows=rows)
+    get_tasks_url = URL('get_all_tasks', signer=url_signer),
+    # rows = db(db.task.created_by == get_user()).select()
+    return dict(get_tasks_url=get_tasks_url)
+
+@action("get_all_tasks")
+@action.uses(db, auth.user)
+def get_all_tasks():
+    r = db(db.task).select(join=db.auth_user.on(db.task.created_by == db.auth_user.id)).as_list()
+    # print("HERE ARE THE PEOPLE IM FOLLOWING", f)
+    return dict(
+        r=r,
+        )
+
 
 @action("create_task", method="POST")
 @action.uses(db, auth.user)

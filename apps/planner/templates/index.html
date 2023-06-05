@@ -10,31 +10,41 @@
 <div class="section" id="vue-target" v-cloak>
   <!-- Put here your Vue.js template -->
   <h1 class="title">Testing Tasks Table</h1>
+   <textarea class="textarea" placeholder="Task title" rows="2" v-model="new_task_title"></textarea>
+   <textarea class="textarea" placeholder="Task description" rows="2" v-model="new_task_description"></textarea>
+   <a class="button is-success" @click="add_task">
+      <span class="icon"><i class="fa fa-plus"></i></span>
+      <span>Add task</span>
+   </a>
 
    <!-- this was originally class="container" -->
-   <div>
+   {{rows}}
+   <div v-for="r in rows">
+      {{r.auth_user.id}}
+      {{r.task.title}}
+      {{r.task.description}}
+   </div>
+      <!--
       <table class="table is-striped is-fullwidth">
          <tr>
-            <!-- <th>Id</th> -->
             <th>User ID</th>
             <th>Task Name</th>
             <th>Description</th>
          </tr>
-         [[for row in rows:]]
-         <tr>
-            <!-- <td>[[=row.id]]</td> -->
-            <td>[[=row.user_id]]</td>
-            <td>[[=row.title]]</td>
-            <td>[[=row.description]]</td>
+         <tr v-for="r in rows">
+            <td>{{r.auth_user.id}}</td>
+            <td>{{r.task.title}}<td>
+            <td>{{r.task.description}}<td>
          </tr>
-         [[pass]]
       </table>
+      -->
 </div>
 
 
 [[block page_scripts]]
 <!-- Loads the index-specific js for Vue -->
 <script>
+   var get_tasks_url = "[[=XML(get_tasks_url)]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]
