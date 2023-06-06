@@ -27,6 +27,8 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
+
+from py4web.utils.form import FormStyleBulma, Form
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user
@@ -38,10 +40,12 @@ url_signer = URLSigner(session)
 @action('index')
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
-    # rows = db(db.task.created_by == get_user()).select()
-    # return dict(rows=rows)
+    rows = db(db.task.created_by == get_user()).select()
+    #return dict(rows=rows)
     return dict(
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
+        url_signer = url_signer,
+        rows = rows,
     )
 
 
@@ -71,3 +75,20 @@ def create_task():
     )
     db.commit()
     return "ok"
+
+#to edit an entry
+@action('edit/<task_id:int>', method=["GET", "POST"])
+@action.uses(db, session, auth.user, url_signer.verify(),'edit.html')
+def edit(task_id=None):
+    assert task_id is not None
+    p = db.task[task_id]
+    if p is None:
+        # Nothing found to be edited
+        redirect(URL('index'))
+
+    #edit form, has records
+    form = Form(db.task, record=p, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
+    if form.accepted:
+        # The update already happened!
+        redirect(URL('index'))
+    return dict(form=form) # if error/empty, just return the form again

@@ -50,33 +50,39 @@
       </div>
    </div>
 
-
-   <!-- ACTUAL TABLE STUFF GOES HERE IN THIS DIV -->
    <div class="container mt-6 has-text-left-fullhd">
       <div class="columns is-variable is-1">
          <div class="column">
             <div class="has-text-centered">
-               <strong>Sunday</strong>
-               __________________
-            </div>
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Sunday'">
-               <header class="card-header">
-                  <p class="card-header-title">
-                  {{r.task.title}}
-                  </p>
-               </header>
-               <div class="card-content">
-                  <div class="content">
-                  {{r.task.description}}
-                  </div>
-               </div>
-               <footer class="card-footer" v-show="r.task.created_by==me">
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
-               </footer>
-            </div>
+
+            <strong>Sunday</strong>
+            __________________
          </div>
-            
+         <div class="card mt-4">
+            [[for r in rows:]]
+            <header class="card-header">
+               <p class="card-header-title">
+                  [[
+                  if r['day_selected == 'Sunday']:
+                  =r['title']
+                  ]]
+               </p>
+            </header>
+            <div class="card-content">
+               <div class="content">
+                  [[
+                  if r['day_selected == 'Sunday']:
+                  =r['description']
+                  ]]
+               </div>
+            </div>
+            <footer class="card-footer">
+               <a class="card-footer-item" href="[[=URL('edit', r['id'], signer=url_signer)]]"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+               <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+            </footer>
+            [[pass]]
+         </div>
+      </div>
          <div class="column">
             <div class="has-text-centered">
                <strong>Monday</strong>
