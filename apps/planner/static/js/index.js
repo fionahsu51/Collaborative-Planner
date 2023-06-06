@@ -28,6 +28,7 @@ let init = (app) => {
     };
 
     app.check_form = function () {
+        // This checks the form for an empty title or unchosen day.
         app.vue.errors = [];
 
         if (!app.vue.new_task_title) {

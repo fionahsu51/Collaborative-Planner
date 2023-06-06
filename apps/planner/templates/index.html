@@ -24,11 +24,11 @@
       <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
       <p>Please choose a day to add the task to:</p>
       <span v-for="day in days">
-         <button class="button" @click="new_task_day=day">
+         <button class="button mr-4" @click="new_task_day=day">
             <span>{{day}}</span>
          </button>
       </span>
-      <div class="field mt-3">
+      <div class="field mt-4">
          <div class="control">
             <button class="button is-link" @click="add_task">
                <span class="icon"><i class="fa fa-plus"></i></span>
