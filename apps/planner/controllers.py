@@ -37,7 +37,7 @@ import random
 
 url_signer = URLSigner(session)
 
-@action('index')
+@action('index', method=["GET"])
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
     rows = db(db.task.created_by == get_user()).select()

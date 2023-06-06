@@ -30,10 +30,9 @@
       </span>
       <div class="field mt-4">
          <div class="control">
-            <button class="button is-link" @click="add_task">
-               <span class="icon"><i class="fa fa-plus"></i></span>
+            <a class="button is-link" @click="add_task">
                <span>Add task</span>
-            </button>
+            </a>
          </div>
       </div>
    </div>
@@ -44,7 +43,7 @@
          <div class="column">
             <div class="has-text-centered">
                <strong>[[=day]]</strong>
-               __________________
+               <hr>
             </div>
             [[for r in rows:]]
             [[if r['day_selected'] == day:]]

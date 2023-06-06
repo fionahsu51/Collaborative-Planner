@@ -43,13 +43,13 @@ let init = (app) => {
     app.add_task = function () {
         app.check_form();
         if (!app.vue.errors.length) {
-            console.log("IM INSIDE THE ADD TASK FUNCTION");
             const message = { title: app.vue.new_task_title, description: app.vue.new_task_description, day_selected: app.vue.new_task_day };
             axios.post("../create_task", message).then(function() {
                 app.vue.new_task_title = "";
                 app.vue.new_task_description = "";
                 app.get_all_tasks();
-            } );
+                location.reload();
+            });
         }
     };
 
