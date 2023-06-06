@@ -52,30 +52,24 @@
    </div>
 
    <div class="container mt-6 has-text-left-fullhd">
-      [[for day in days:]]
       <div class="columns is-variable is-1">
+         [[for day in days:]]
          <div class="column">
             <div class="has-text-centered">
-
                <strong>[[=day]]</strong>
                __________________
             </div>
+            [[for r in rows:]]
+            [[if r['day_selected'] == day:]]
             <div class="card mt-4">
-               [[for r in rows:]]
                <header class="card-header">
                   <p class="card-header-title">
-                     [[
-                     if r['day_selected == day]:
-                     =r['title']
-                     ]]
+                     [[=r['title']]]
                   </p>
                </header>
                <div class="card-content">
                   <div class="content">
-                     [[
-                     if r['day_selected == day]:
-                     =r['description']
-                     ]]
+                     [[=r['description']]]
                   </div>
                </div>
                <footer class="card-footer">
@@ -83,11 +77,12 @@
                            class="fa fa-pencil"></i></span></a>
                   <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
                </footer>
-               [[pass]]
             </div>
+            [[pass]]
+            [[pass]]
          </div>
+         [[pass]]
       </div>
-      [[pass]]
    </div>
 </div>
 
