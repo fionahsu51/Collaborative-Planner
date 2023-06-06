@@ -12,17 +12,21 @@
    <!-- ADDING NEW TABLE CONTENT GOES HERE IN THIS DIV -->
    <div class="container has-text-left-fullhd">
       <h2 class="is-size-4"><strong>Add a new task</strong></h2>
+      <div v-if="errors.length">
+         <p class="has-text-danger">Please correct the following error(s):</p>
+         <ul>
+            <li class="has-text-danger" v-for="error in errors">{{error}}</li>
+         </ul>
+      </div>
       <p>Task Title</p>
       <input class="input has-fixed-size" placeholder="Add a task title" rows="2" v-model="new_task_title"></input>
       <p>Task Description</p>
       <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
       <p>Please choose a day to add the task to:</p>
-      <span>
-         [[for day in days:]]
-         <button class="button" @click="new_task_day=[[=day]]">
-            <span>[[=day]]</span>
+      <span v-for="day in days">
+         <button class="button" @click="new_task_day=day">
+            <span>{{day}}</span>
          </button>
-         [[pass]]
       </span>
       <div class="field mt-3">
          <div class="control">

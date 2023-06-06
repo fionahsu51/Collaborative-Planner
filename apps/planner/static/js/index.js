@@ -12,10 +12,12 @@ let init = (app) => {
         // Complete as you see fit.
         new_task_title: "",
         new_task_description: "",
-        new_task_day: "Sunday",
+        new_task_day: "",
         task_list: [],
         me: "",
         make_addition: "F",
+        errors: [],
+        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
     };
 
     app.enumerate = (a) => {
@@ -25,14 +27,29 @@ let init = (app) => {
         return a;
     };
 
+    app.check_form = function () {
+        app.vue.errors = [];
+
+        if (!app.vue.new_task_title) {
+            app.vue.errors.push("Title required.");
+        }
+
+        if (!app.vue.new_task_day) {
+            app.vue.errors.push("Day required.");
+        }
+    };
+
     app.add_task = function () {
-        console.log("IM INSIDE THE ADD TASK FUNCTION");
-        const message = { title: app.vue.new_task_title, description: app.vue.new_task_description, day_selected: app.vue.new_task_day };
-        axios.post("../create_task", message).then(function() {
-            app.vue.new_task_title = "";
-            app.vue.new_task_description = "";
-            app.get_all_tasks();
-        } );
+        app.check_form();
+        if (!app.vue.errors.length) {
+            console.log("IM INSIDE THE ADD TASK FUNCTION");
+            const message = { title: app.vue.new_task_title, description: app.vue.new_task_description, day_selected: app.vue.new_task_day };
+            axios.post("../create_task", message).then(function() {
+                app.vue.new_task_title = "";
+                app.vue.new_task_description = "";
+                app.get_all_tasks();
+            } );
+        }
     };
 
     app.get_all_tasks = function () {
