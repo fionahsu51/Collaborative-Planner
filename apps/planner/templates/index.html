@@ -1,9 +1,9 @@
 [[extend 'layout.html']]
 
 <style>
-[v-cloak] {
-     display: none;
-}
+   [v-cloak] {
+      display: none;
+   }
 </style>
 
 <div class="section" id="vue-target" v-cloak>
@@ -15,7 +15,8 @@
       <p>TASK TITLE</p>
       <textarea class="input" placeholder="Add a task title" rows="2" v-model="new_task_title"></textarea>
       <p>TASK DESCRIPTION</p>
-      <textarea class="textarea" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
+      <textarea class="textarea" placeholder="Add a task description" rows="2"
+         v-model="new_task_description"></textarea>
       <p>Please choose a day to add the task to:</p>
       <span>
          <button class="button" @click="new_task_day='Sunday'">
@@ -51,176 +52,42 @@
    </div>
 
    <div class="container mt-6 has-text-left-fullhd">
+      [[for day in days:]]
       <div class="columns is-variable is-1">
          <div class="column">
             <div class="has-text-centered">
 
-            <strong>Sunday</strong>
-            __________________
-         </div>
-         <div class="card mt-4">
-            [[for r in rows:]]
-            <header class="card-header">
-               <p class="card-header-title">
-                  [[
-                  if r['day_selected == 'Sunday']:
-                  =r['title']
-                  ]]
-               </p>
-            </header>
-            <div class="card-content">
-               <div class="content">
-                  [[
-                  if r['day_selected == 'Sunday']:
-                  =r['description']
-                  ]]
-               </div>
-            </div>
-            <footer class="card-footer">
-               <a class="card-footer-item" href="[[=URL('edit', r['id'], signer=url_signer)]]"><span class="icon"><i class="fa fa-pencil"></i></span></a>
-               <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
-            </footer>
-            [[pass]]
-         </div>
-      </div>
-         <div class="column">
-            <div class="has-text-centered">
-               <strong>Monday</strong>
+               <strong>[[=day]]</strong>
                __________________
             </div>
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Monday'">
+            <div class="card mt-4">
+               [[for r in rows:]]
                <header class="card-header">
                   <p class="card-header-title">
-                  {{r.task.title}}
+                     [[
+                     if r['day_selected == day]:
+                     =r['title']
+                     ]]
                   </p>
                </header>
                <div class="card-content">
                   <div class="content">
-                  {{r.task.description}}
+                     [[
+                     if r['day_selected == day]:
+                     =r['description']
+                     ]]
                   </div>
                </div>
-               <footer class="card-footer" v-show="r.task.created_by==me">
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
+               <footer class="card-footer">
+                  <a class="card-footer-item" href="[[=URL('edit', r['id'], signer=url_signer)]]"><span class="icon"><i
+                           class="fa fa-pencil"></i></span></a>
                   <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
                </footer>
-            </div>
-         </div>
-
-         <div class="column">
-            <div class="has-text-centered">
-               <strong>Tuesday</strong>
-               __________________
-            </div>
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Tuesday'">
-               <header class="card-header">
-                  <p class="card-header-title">
-                  {{r.task.title}}
-                  </p>
-               </header>
-               <div class="card-content">
-                  <div class="content">
-                  {{r.task.description}}
-                  </div>
-               </div>
-               <footer class="card-footer" v-show="r.task.created_by==me">
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
-               </footer>
-            </div>
-         </div>
-
-         <div class="column">
-            <div class="has-text-centered">
-               <strong>Wednesday</strong>
-               __________________
-            </div>
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Wednesday'">
-               <header class="card-header">
-                  <p class="card-header-title">
-                  {{r.task.title}}
-                  </p>
-               </header>
-               <div class="card-content">
-                  <div class="content">
-                  {{r.task.description}}
-                  </div>
-               </div>
-               <footer class="card-footer" v-show="r.task.created_by==me">
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
-               </footer>
-            </div>
-         </div>
-
-         <div class="column">
-            <div class="has-text-centered">
-               <strong>Thursday</strong>
-               __________________
-            </div>
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Thursday'">
-               <header class="card-header">
-                  <p class="card-header-title">
-                  {{r.task.title}}
-                  </p>
-               </header>
-               <div class="card-content">
-                  <div class="content">
-                  {{r.task.description}}
-                  </div>
-               </div>
-               <footer class="card-footer" v-show="r.task.created_by==me">
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
-               </footer>
-            </div>
-         </div>
-
-         <div class="column">
-            <div class="has-text-centered">
-               <strong>Friday</strong>
-               __________________
-            </div>
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Friday'">
-               <header class="card-header">
-                  <p class="card-header-title">
-                  {{r.task.title}}
-                  </p>
-               </header>
-               <div class="card-content">
-                  <div class="content">
-                  {{r.task.description}}
-                  </div>
-               </div>
-               <footer class="card-footer" v-show="r.task.created_by==me">
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
-               </footer>
-            </div>
-         </div>
-
-         <div class="column">
-            <div class="has-text-centered">
-               <strong>Saturday</strong>
-               __________________
-            </div>
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected=='Saturday'">
-               <header class="card-header">
-                  <p class="card-header-title">
-                  {{r.task.title}}
-                  </p>
-               </header>
-               <div class="card-content">
-                  <div class="content">
-                  {{r.task.description}}
-                  </div>
-               </div>
-               <footer class="card-footer" v-show="r.task.created_by==me">
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-pencil"></i></span></a>
-                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
-               </footer>
+               [[pass]]
             </div>
          </div>
       </div>
+      [[pass]]
    </div>
 </div>
 

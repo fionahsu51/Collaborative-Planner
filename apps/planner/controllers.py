@@ -41,11 +41,13 @@ url_signer = URLSigner(session)
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
     rows = db(db.task.created_by == get_user()).select()
+    days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     #return dict(rows=rows)
     return dict(
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
         url_signer = url_signer,
         rows = rows,
+        days = days,
     )
 
 
