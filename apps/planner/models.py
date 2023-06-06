@@ -35,6 +35,11 @@ db.define_table(
     Field('day_selected'),
     auth.signature
 )
+db.task.id.readable = db.task.id.writable = False
+db.task.created_on.readable = db.task.created_on.writable = False
+db.task.created_by.readable = db.task.created_by.writable = False
+db.task.modified_by.readable = db.task.modified_by.writable = False
+db.task.modified_on.readable = db.task.modified_on.writable = False
 
 db.define_table(
     'day',
