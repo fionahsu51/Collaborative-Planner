@@ -7,39 +7,22 @@
 </style>
 
 <div class="section" id="vue-target" v-cloak>
-   <p class="is-size-2 is-family-monospace has-text-centered"><strong>PLANNER</strong></p>
+   <h1 class="title is-family-monospace has-text-centered">Weekly Planner</h1>
 
    <!-- ADDING NEW TABLE CONTENT GOES HERE IN THIS DIV -->
    <div class="container has-text-left-fullhd">
-      <p class="is-size-4"><strong>Add a new task</strong></p>
-      <p>TASK TITLE</p>
-      <textarea class="input" placeholder="Add a task title" rows="2" v-model="new_task_title"></textarea>
-      <p>TASK DESCRIPTION</p>
-      <textarea class="textarea" placeholder="Add a task description" rows="2"
-         v-model="new_task_description"></textarea>
+      <h2 class="is-size-4"><strong>Add a new task</strong></h2>
+      <p>Task Title</p>
+      <input class="input has-fixed-size" placeholder="Add a task title" rows="2" v-model="new_task_title"></input>
+      <p>Task Description</p>
+      <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
       <p>Please choose a day to add the task to:</p>
       <span>
-         <button class="button" @click="new_task_day='Sunday'">
-            <span>Sunday</span>
+         [[for day in days:]]
+         <button class="button" @click="new_task_day=[[=day]]">
+            <span>[[=day]]</span>
          </button>
-         <button class="button" @click="new_task_day='Monday'">
-            <span>Monday</span>
-         </button>
-         <button class="button" @click="new_task_day='Tuesday'">
-            <span>Tuesday</span>
-         </button>
-         <button class="button" @click="new_task_day='Wednesday'">
-            <span>Wednesday</span>
-         </button>
-         <button class="button" @click="new_task_day='Thursday'">
-            <span>Thursday</span>
-         </button>
-         <button class="button" @click="new_task_day='Friday'">
-            <span>Friday</span>
-         </button>
-         <button class="button" @click="new_task_day='Saturday'">
-            <span>Saturday</span>
-         </button>
+         [[pass]]
       </span>
       <div class="field mt-3">
          <div class="control">
