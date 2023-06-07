@@ -3,4 +3,17 @@
 <div class="section">
     <h1 class="title">Edit a task</h1>
     [[=form]]
+    <div class="select">
+        
+        <select>
+            <option value="">Day of Week</option>
+            <option @click="new_task_date=date">Monday</option>
+            <option v-for="day in days" @click="new_task_date=date">Tuesday</option>
+            <option v-for="day in days" @click="new_task_date=date">Wednesday</option>
+            <option v-for="day in days" @click="new_task_date=date">Thursday</option>
+            <option v-for="day in days" @click="new_task_date=date">Friday</option>
+            <option v-for="day in days" @click="new_task_date=date">Saturday</option>
+            <option v-for="day in days" @click="new_task_date=date">Sunday</option>
+        </select>
+    </div>
 </div>
