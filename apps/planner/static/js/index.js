@@ -83,7 +83,7 @@ let init = (app) => {
         }
     };
 
-    app.previous_view = function () {
+    app.previous = function () {
         // This goes to the previous day/week/month of the view.
         if (app.vue.current_view === 'day') {
             app.vue.current_day -= 1;
@@ -93,7 +93,14 @@ let init = (app) => {
         }
     };
 
-    app.next_view = function () {
+    app.today = function () {
+        // This goes to the current day/week/month of the view.
+        if (app.vue.current_view === 'day') {
+            app.vue.current_day = new Date().getDay();
+        }
+    };
+
+    app.next = function () {
         // This goes to the next day/week/month of the view.
         if (app.vue.current_view === 'day') {
             app.vue.current_day = (app.vue.current_day + 1) % 7;
@@ -113,8 +120,9 @@ let init = (app) => {
     app.methods = {
         // Complete as you see fit.
         add_task: app.add_task,
-        previous_view: app.previous_view,
-        next_view: app.next_view,
+        previous: app.previous,
+        today: app.today,
+        next: app.next,
         get_all_tasks: app.get_all_tasks,
     };
 
