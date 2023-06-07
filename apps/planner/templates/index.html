@@ -31,6 +31,7 @@
       <div class="field mt-4">
          <div class="control">
             <a class="button is-link" @click="add_task">
+               <span class="icon"><i class="fa fa-plus"></i></span>
                <span>Add task</span>
             </a>
          </div>
@@ -39,6 +40,20 @@
 
    <!-- Planner -->
    <div class="container mt-6 has-text-left-fullhd">
+      <div class="columns">
+         <div class="column is-half">
+            <a class="button is-light">
+               <span class="icon"><i class="fa fa-chevron-left"></i></span>
+               <span>Last Week</span>
+            </a>
+         </div>
+         <div class="column">
+            <a class="button is-light is-pulled-right">
+               <span>Next Week</span>
+               <span class="icon"><i class="fa fa-chevron-right"></i></span>
+            </a>
+         </div>
+      </div>
       <div class="columns is-variable is-1">
          [[for day in days:]]
          <div class="column">
