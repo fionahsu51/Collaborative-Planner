@@ -54,12 +54,6 @@
          </div>
       </div>
 
-      <p class="mt-2">Please choose a day to add the task to:</p>
-      <span v-for="day in days">
-         <button class="button mr-2" @click="new_task_day=day">
-            <span>{{day}}</span>
-         </button>
-      </span>
       <div class="field mt-4">
          <div class="control">
             <a class="button is-link" @click="add_task">
