@@ -33,7 +33,7 @@ db.define_table(
     Field('title', requires=IS_NOT_EMPTY()),
     Field('description'),
     Field('date'),
-    Field('day_selected'),
+    Field('day'),
     auth.signature
 )
 db.task.id.readable = db.task.id.writable = False

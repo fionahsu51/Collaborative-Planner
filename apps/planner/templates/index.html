@@ -112,7 +112,7 @@
                <hr>
             </div>
 
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected==days[current_day] && r.task.created_by==me">
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==days[current_day] && r.task.created_by==me">
                <header class="card-header">
                   <p class="card-header-title">
                      {{r.task.title}}
@@ -141,7 +141,7 @@
                <hr>
             </div>
 
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected==day && r.task.created_by==me">
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==day && r.task.created_by==me">
                <header class="card-header">
                   <p class="card-header-title">
                      {{r.task.title}}

@@ -63,18 +63,12 @@ let init = (app) => {
 
     app.get_day_from_date = function (date) {
         // This returns a weekday (0 = Sunday, ..., 6=Saturday) given a Date() object.
-        // Algorithm from https://cs.uwaterloo.ca/~alopez-o/math-faq/node73.html
-        let k = date.getDate();
-        let m = date.getMonth() - 1;
-        if (m === 0) { // Treat March as the first month.
-            m = 12;
-        } else if (m === -1) {
-            m = 11;
-        }
-        let C = parseInt(app.vue.new_task_year.substring(0,2), 10);
-        let Y = parseInt(app.vue.new_task_year.substring(2), 10);
-
-        return (k + Math.floor(2.6*m - 0.2) - 2 * C + Y + Math.floor(Y / 4) + Math.floor(C / 4)) % 7;
+        // Algorithm from https://www.hackerearth.com/blog/developers/how-to-find-the-day-of-a-week/
+        let t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
+        let m = date.getMonth();
+        let y = date.getFullYear(); 
+        y -= m < 3;
+        return ((y + Math.floor(y/4) - Math.floor(y/100) + Math.floor(y/400) + t[m] + date.getDate()) % 7);
     };
     
     app.add_task = function () {
@@ -85,7 +79,7 @@ let init = (app) => {
                 title: app.vue.new_task_title, 
                 description: app.vue.new_task_description,
                 date: [parseInt(app.vue.new_task_year, 10), app.vue.new_task_js_date.getMonth() + 1, parseInt(app.vue.new_task_date, 10)],
-                day_selected: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
+                day: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
             };
             axios.post("../create_task", message).then(function () {
                 app.vue.new_task_title = "";
