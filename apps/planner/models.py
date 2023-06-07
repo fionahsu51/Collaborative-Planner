@@ -32,6 +32,7 @@ db.define_table(
     # Field('user_id', 'reference auth_user'),
     Field('title', requires=IS_NOT_EMPTY()),
     Field('description'),
+    Field('date'),
     Field('day_selected'),
     auth.signature
 )

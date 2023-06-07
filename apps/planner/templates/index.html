@@ -7,7 +7,7 @@
 </style>
 
 <div class="section" id="vue-target" v-cloak>
-   <h1 class="title is-family-monospace has-text-centered">Weekly Planner</h1>
+   <h1 class="title is-family-monospace has-text-centered">Planner</h1>
 
    <!-- Add Task -->
    <div class="container has-text-left-fullhd">
@@ -22,6 +22,71 @@
       <input class="input has-fixed-size" placeholder="Add a task title" rows="2" v-model="new_task_title"></input>
       <p class="mt-2">Task Description</p>
       <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
+      <p class="mt-2">Please choose a date to add the task to:</p>
+      <div>
+         <!-- Month dropdown -->
+         <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+               <button class="button">
+                  <span>{{new_task_month}}</span>
+                  <span class="icon is-small">
+                     <i class="fa fa-angle-down"></i>
+                  </span>
+               </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+               <div class="dropdown-content">
+                  <span v-for="month in months">
+                     <a class="dropdown-item" @click="new_task_month=month">
+                        {{month}}
+                     </a>
+                  </span>
+               </div>
+            </div>
+         </div>
+
+         <!-- Date dropdown -->
+         <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+               <button class="button">
+                  <span>{{new_task_date}}</span>
+                  <span class="icon is-small">
+                     <i class="fa fa-angle-down"></i>
+                  </span>
+               </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+               <div class="dropdown-content">
+                  <span v-for="date in dates">
+                     <a class="dropdown-item" @click="new_task_date=date">
+                        {{date}}
+                     </a>
+                  </span>
+               </div>
+            </div>
+         </div>
+
+         <!-- Year dropdown -->
+         <div class="dropdown is-hoverable">
+            <div class="dropdown-trigger">
+               <button class="button">
+                  <span>{{new_task_year}}</span>
+                  <span class="icon is-small">
+                     <i class="fa fa-angle-down"></i>
+                  </span>
+               </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+               <div class="dropdown-content">
+                  <span v-for="year in years">
+                     <a class="dropdown-item" @click="new_task_year=year">
+                        {{year}}
+                     </a>
+                  </span>
+               </div>
+            </div>
+         </div>
+      </div>
       <p class="mt-2">Please choose a day to add the task to:</p>
       <span v-for="day in days">
          <button class="button mr-2" @click="new_task_day=day">
@@ -31,7 +96,7 @@
       <div class="field mt-4">
          <div class="control">
             <a class="button is-link" @click="add_task">
-               <span class="icon"><i class="fa fa-plus"></i></span>
+               <span class="icon is-small"><i class="fa fa-plus"></i></span>
                <span>Add task</span>
             </a>
          </div>
@@ -53,7 +118,7 @@
       <div class="columns">
          <div class="column is-half">
             <a class="button is-light" @click="previous_view">
-               <span class="icon"><i class="fa fa-chevron-left"></i></span>
+               <span class="icon is-small"><i class="fa fa-chevron-left"></i></span>
                <span v-if="current_view == 'day'">Yesterday</span>
                <span v-else-if="current_view == 'week'">Last Week</span>
                <span v-else-if="current_view == 'month'">Last Month</span>
@@ -64,7 +129,7 @@
                <span v-if="current_view == 'day'">Tomnorrow</span>
                <span v-else-if="current_view == 'week'">Next Week</span>
                <span v-else-if="current_view == 'month'">Next Month</span>
-               <span class="icon"><i class="fa fa-chevron-right"></i></span>
+               <span class="icon is-small"><i class="fa fa-chevron-right"></i></span>
             </a>
          </div>
       </div>

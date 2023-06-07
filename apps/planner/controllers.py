@@ -67,11 +67,13 @@ def create_task():
     # Implement. 
     title = request.json.get('title')
     description = request.json.get('description')
+    date = request.json.get('date')
     day_selected = request.json.get('day_selected')
     # print("- THE TITLE OF THE TASK IS :", title, "\n- THE DESCRIPTION IS: ", description)
     db.task.insert(
         title=title,
         description=description,
+        date=date,
         day_selected=day_selected
     )
     db.commit()
