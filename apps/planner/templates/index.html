@@ -12,81 +12,48 @@
    <!-- Add Task -->
    <div class="container has-text-left-fullhd">
       <h2 class="is-size-4"><strong>Add a new task</strong></h2>
+
+      <!-- Error message(s) -->
       <div class="mt-2" v-if="errors.length">
          <p class="has-text-danger">Please correct the following error(s):</p>
          <ul>
             <li class="has-text-danger" v-for="error in errors">{{error}}</li>
          </ul>
       </div>
+
       <p class="mt-2">Task Title</p>
       <input class="input has-fixed-size" placeholder="Add a task title" rows="2" v-model="new_task_title"></input>
+
       <p class="mt-2">Task Description</p>
       <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
+
       <p class="mt-2">Please choose a date to add the task to:</p>
       <div>
          <!-- Month dropdown -->
-         <div class="dropdown is-hoverable">
-            <div class="dropdown-trigger">
-               <button class="button">
-                  <span>{{new_task_month}}</span>
-                  <span class="icon is-small">
-                     <i class="fa fa-angle-down"></i>
-                  </span>
-               </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
-               <div class="dropdown-content">
-                  <span v-for="month in months">
-                     <a class="dropdown-item" @click="new_task_month=month">
-                        {{month}}
-                     </a>
-                  </span>
-               </div>
-            </div>
+         <div class="select">
+            <select>
+               <option value="">Month</option>
+               <option v-for="month in months" @click="new_task_month=month">{{month}}</option>
+            </select>
          </div>
 
          <!-- Date dropdown -->
-         <div class="dropdown is-hoverable">
-            <div class="dropdown-trigger">
-               <button class="button">
-                  <span>{{new_task_date}}</span>
-                  <span class="icon is-small">
-                     <i class="fa fa-angle-down"></i>
-                  </span>
-               </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
-               <div class="dropdown-content">
-                  <span v-for="date in dates">
-                     <a class="dropdown-item" @click="new_task_date=date">
-                        {{date}}
-                     </a>
-                  </span>
-               </div>
-            </div>
+         <div class="select">
+            <select>
+               <option value="">Day</option>
+               <option v-for="date in dates" @click="new_task_date=date">{{date}}</option>
+            </select>
          </div>
 
          <!-- Year dropdown -->
-         <div class="dropdown is-hoverable">
-            <div class="dropdown-trigger">
-               <button class="button">
-                  <span>{{new_task_year}}</span>
-                  <span class="icon is-small">
-                     <i class="fa fa-angle-down"></i>
-                  </span>
-               </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
-               <div class="dropdown-content">
-                  <span v-for="year in years">
-                     <a class="dropdown-item" @click="new_task_year=year">
-                        {{year}}
-                     </a>
-                  </span>
-               </div>
-            </div>
+         <div class="select">
+            <select>
+               <option value="">Year</option>
+               <option v-for="year in years" @click="new_task_year=year">{{year}}</option>
+            </select>
          </div>
       </div>
+
       <p class="mt-2">Please choose a day to add the task to:</p>
       <span v-for="day in days">
          <button class="button mr-2" @click="new_task_day=day">
