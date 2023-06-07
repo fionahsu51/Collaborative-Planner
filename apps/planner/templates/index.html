@@ -40,27 +40,76 @@
 
    <!-- Planner -->
    <div class="container mt-6 has-text-left-fullhd">
+      <!-- Change views -->
+      <nav class="breadcrumb is-right has-bullet-separator">
+         <ul>
+            <li><a @click="current_view='day'">Day</a></li>
+            <li><a @click="current_view='week'">Week</a></li>
+            <li><a @click="current_view='month'">Month</a></li>
+         </ul>
+      </nav>
+
+      <!-- Previous and Next buttons -->
       <div class="columns">
          <div class="column is-half">
-            <a class="button is-light">
+            <a class="button is-light" @click="previous_view">
                <span class="icon"><i class="fa fa-chevron-left"></i></span>
-               <span>Last Week</span>
+               <span v-if="current_view == 'day'">Yesterday</span>
+               <span v-else-if="current_view == 'week'">Last Week</span>
+               <span v-else-if="current_view == 'month'">Last Month</span>
             </a>
          </div>
          <div class="column">
-            <a class="button is-light is-pulled-right">
-               <span>Next Week</span>
+            <a class="button is-light is-pulled-right" @click="next_view">
+               <span v-if="current_view == 'day'">Tomnorrow</span>
+               <span v-else-if="current_view == 'week'">Next Week</span>
+               <span v-else-if="current_view == 'month'">Next Month</span>
                <span class="icon"><i class="fa fa-chevron-right"></i></span>
             </a>
          </div>
       </div>
-      <div class="columns is-variable is-1">
+
+      <!-- Daily View -->
+      <div class="columns" v-show="current_view == 'day'">
+         <div class="column">
+            <div class="has-text-centered">
+               <strong>{{days[current_day]}}</strong>
+               <hr>
+            </div>
+
+            [[for r in rows:]]
+            [[if r['day_selected'] == date.strftime("%A"):]]
+            <div class="card mt-4">
+               <header class="card-header">
+                  <p class="card-header-title">
+                     [[=r['title']]]
+                  </p>
+               </header>
+               <div class="card-content">
+                  <div class="content">
+                     [[=r['description']]]
+                  </div>
+               </div>
+               <footer class="card-footer">
+                  <a class="card-footer-item" href="[[=URL('edit', r['id'], signer=url_signer)]]"><span class="icon"><i
+                           class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
+               </footer>
+            </div>
+            [[pass]]
+            [[pass]]
+         </div>
+      </div>
+
+      <!-- Weekly View -->
+      <div class="columns is-variable is-1" v-show="current_view == 'week'">
          [[for day in days:]]
          <div class="column">
             <div class="has-text-centered">
                <strong>[[=day]]</strong>
                <hr>
             </div>
+
             [[for r in rows:]]
             [[if r['day_selected'] == day:]]
             <div class="card mt-4">

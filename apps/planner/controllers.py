@@ -32,26 +32,27 @@ from py4web.utils.form import FormStyleBulma, Form
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 from py4web.utils.url_signer import URLSigner
 from .models import get_user
-import uuid
-import random
+
+from datetime import datetime as dt
 
 url_signer = URLSigner(session)
 
-@action('index', method=["GET"])
+@action('index')
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
     rows = db(db.task.created_by == get_user()).select()
     days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    date = dt.now()
     #return dict(rows=rows)
     return dict(
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
         url_signer = url_signer,
         rows = rows,
         days = days,
+        date = date,
     )
 
-
-@action("get_all_tasks")
+@action('get_all_tasks')
 @action.uses(db, auth.user)
 def get_all_tasks():
     # connect TASKS table with the AUTH_USER table using "join"
@@ -60,9 +61,9 @@ def get_all_tasks():
     return dict(
         r=r,
         me=get_user(),
-        )
+    )
 
-@action("create_task", method="POST")
+@action('create_task', method="POST")
 @action.uses(db, auth.user)
 def create_task():
     # Implement. 

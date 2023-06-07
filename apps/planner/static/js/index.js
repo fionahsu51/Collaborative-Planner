@@ -18,6 +18,8 @@ let init = (app) => {
         make_addition: "F",
         errors: [],
         days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        current_view: "week",
+        current_day: new Date().getDay(),
     };
 
     app.enumerate = (a) => {
@@ -53,6 +55,21 @@ let init = (app) => {
         }
     };
 
+    app.previous_view = function () {
+        if (app.vue.current_view == 'day') {
+            app.vue.current_day -= 1;
+            if (app.vue.current_day < 0) {
+                app.vue.current_day = 6;
+            }
+        }
+    };
+
+    app.next_view = function () {
+        if (app.vue.current_view == 'day') {
+            app.vue.current_day = (app.vue.current_day + 1) % 7;
+        }
+    };
+    
     app.get_all_tasks = function () {
         axios.get(get_tasks_url)
             .then(function (response){
@@ -65,6 +82,8 @@ let init = (app) => {
     app.methods = {
         // Complete as you see fit.
         add_task: app.add_task,
+        previous_view: app.previous_view,
+        next_view: app.next_view,
         get_all_tasks: app.get_all_tasks,
     };
 
