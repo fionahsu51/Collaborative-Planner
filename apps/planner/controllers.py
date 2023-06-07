@@ -33,6 +33,8 @@ from .common import db, session, T, cache, auth, logger, authenticated, unauthen
 from py4web.utils.url_signer import URLSigner
 from .models import get_user
 
+from http import HTTPStatus
+
 from datetime import datetime as dt
 
 url_signer = URLSigner(session)
@@ -40,16 +42,12 @@ url_signer = URLSigner(session)
 @action('index')
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
-    rows = db(db.task.created_by == get_user()).select()
-    days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    date = dt.now()
+    # rows = db(db.task.created_by == get_user()).select()
+    # days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    # date = dt.now()
     #return dict(rows=rows)
     return dict(
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
-        url_signer = url_signer,
-        rows = rows,
-        days = days,
-        date = date,
     )
 
 @action('get_all_tasks')
@@ -81,9 +79,12 @@ def create_task():
 
 #to edit an entry
 @action('edit/<task_id:int>', method=["GET", "POST"])
-@action.uses(db, session, auth.user, url_signer.verify(),'edit.html')
+@action.uses(db, session, auth.user, 'edit.html')
 def edit(task_id=None):
     assert task_id is not None
+    # Check for correct permissions before editing
+    if db.task[task_id] is None or not db.task[task_id].created_by == get_user():
+        return HTTPStatus.BAD_REQUEST.name
     p = db.task[task_id]
     if p is None:
         # Nothing found to be edited

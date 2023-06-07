@@ -77,62 +77,54 @@
                <hr>
             </div>
 
-            [[for r in rows:]]
-            [[if r['day_selected'] == date.strftime("%A"):]]
-            <div class="card mt-4">
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected==days[current_day] && r.task.created_by==me">
                <header class="card-header">
                   <p class="card-header-title">
-                     [[=r['title']]]
+                     {{r.task.title}}
                   </p>
                </header>
                <div class="card-content">
                   <div class="content">
-                     [[=r['description']]]
+                     {{r.task.description}}
                   </div>
                </div>
                <footer class="card-footer">
-                  <a class="card-footer-item" href="[[=URL('edit', r['id'], signer=url_signer)]]"><span class="icon"><i
-                           class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item" :href="'/planner/edit/' + r.task.id">
+                     <span class="icon"><i class="fa fa-pencil"></i></span>
+                  </a>
                   <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
                </footer>
             </div>
-            [[pass]]
-            [[pass]]
          </div>
       </div>
 
       <!-- Weekly View -->
       <div class="columns is-variable is-1" v-show="current_view == 'week'">
-         [[for day in days:]]
-         <div class="column">
+         <div class="column" v-for="day in days">
             <div class="has-text-centered">
-               <strong>[[=day]]</strong>
+               <strong>{{day}}</strong>
                <hr>
             </div>
 
-            [[for r in rows:]]
-            [[if r['day_selected'] == day:]]
-            <div class="card mt-4">
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day_selected==day && r.task.created_by==me">
                <header class="card-header">
                   <p class="card-header-title">
-                     [[=r['title']]]
+                     {{r.task.title}}
                   </p>
                </header>
                <div class="card-content">
                   <div class="content">
-                     [[=r['description']]]
+                     {{r.task.description}}
                   </div>
                </div>
                <footer class="card-footer">
-                  <a class="card-footer-item" href="[[=URL('edit', r['id'], signer=url_signer)]]"><span class="icon"><i
-                           class="fa fa-pencil"></i></span></a>
+                  <a class="card-footer-item" :href="'/planner/edit/' + r.task.id">
+                     <span class="icon"><i class="fa fa-pencil"></i></span>
+                  </a>
                   <a class="card-footer-item"><span class="icon"><i class="fa fa-trash"></i></span></a>
                </footer>
             </div>
-            [[pass]]
-            [[pass]]
          </div>
-         [[pass]]
       </div>
    </div>
 </div>
