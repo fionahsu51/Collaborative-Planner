@@ -67,7 +67,7 @@ let init = (app) => {
         let t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
         let m = date.getMonth();
         let y = date.getFullYear(); 
-        y -= m < 3;
+        y -= (m + 1) < 3;
         return ((y + Math.floor(y/4) - Math.floor(y/100) + Math.floor(y/400) + t[m] + date.getDate()) % 7);
     };
     
