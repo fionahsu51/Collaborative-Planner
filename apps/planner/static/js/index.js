@@ -18,6 +18,7 @@ let init = (app) => {
         new_task_year: "",
         new_task_js_date: new Date(),
         new_task_invited_users: [],
+        new_task_uninvited_users: [],
         users: [],
 
         errors: [],
@@ -37,7 +38,9 @@ let init = (app) => {
     app.enumerate = (a) => {
         // This adds an _idx field to each element of the array.
         let k = 0;
-        a.map((e) => { e._idx = k++; });
+        a.map((e) => { 
+            e._idx = k++; 
+        });
         return a;
     };
 
@@ -45,6 +48,7 @@ let init = (app) => {
         axios.get(get_users_url)
             .then(function (response){
                 let users = response.data.users;
+                app.enumerate(users);
                 app.vue.users = users;
                 app.vue.me = response.data.me;
             });
@@ -101,6 +105,25 @@ let init = (app) => {
         }
     };
 
+    app.set_invite = function(u_idx, s) {
+        let user = app.vue.users[u_idx]; // map to the right place in users list
+        user.status = s; // set its status
+        axios.post(invite_url, {user_id: user.id, status: s});
+        // reset_invited_list();
+    };
+
+    function reset_invited_list() {
+        app.vue.new_task_invited_users = [];
+        app.vue.new_task_uninvited_users = [];
+        for (let u of app.vue.users) {
+            if (u.status) {
+                app.vue.new_task_invited_users.push(u)
+            } else {
+                app.vue.new_task_uninvited_users.push(u)
+            }
+        }
+    }
+
     app.previous = function () {
         // This goes to the previous day/week/month of the view.
         if (app.vue.current_view === 'day') {
@@ -149,6 +172,7 @@ let init = (app) => {
         get_all_tasks: app.get_all_tasks,
         check_invited_users: app.check_invited_users,
         get_users: app.get_users,
+        set_invite: app.set_invite,
     };
 
     // This creates the Vue instance.

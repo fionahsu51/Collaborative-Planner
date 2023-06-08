@@ -44,6 +44,13 @@ db.task.modified_by.readable = db.task.modified_by.writable = False
 db.task.modified_on.readable = db.task.modified_on.writable = False
 
 db.define_table(
+    'invitation',
+    Field('group_id', 'reference auth_user'),
+    Field('status', 'boolean', default=False),
+    auth.signature
+)
+
+db.define_table(
     'day',
     Field('day_name'),
     auth.signature

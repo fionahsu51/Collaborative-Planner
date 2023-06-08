@@ -29,9 +29,12 @@
 
       
       <span v-for="u in users">
-         <button class="button mr-4" @click="">
+         <button class="button mr-4" v-show="!u.status" @click="set_invite(u._idx, true)">
             <span>{{u.first_name}} {{u.last_name}}</span>
          </button>
+         <!-- <button class="button mr-4" v-show="u.status" @click="set_invite(u._idx, false)">
+            <span>{{u.first_name}} {{u.last_name}}</span>
+         </button> -->
       </span>
       
       <p class="mt-2">Please choose a date to add the task to:</p>
@@ -177,6 +180,7 @@
 <script>
    var get_tasks_url = "[[=XML(get_tasks_url)]]";
    var get_users_url = "[[=XML(get_users_url)]]";
+   var invite_url = "[[=XML(invite_url)]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]

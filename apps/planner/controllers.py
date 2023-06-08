@@ -42,23 +42,43 @@ url_signer = URLSigner(session)
 @action('index')
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
-    # rows = db(db.task.created_by == get_user()).select()
-    # days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    # date = dt.now()
-    #return dict(rows=rows)
     return dict(
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
         get_users_url = URL('get_users', signer=url_signer),
+        invite_url=URL('set_invite', signer=url_signer),
     )
 
 @action('get_users')
 @action.uses(db, auth.user, url_signer)
 def get_users():
     users = db(db.auth_user).select(db.auth_user.ALL).as_list()
+
+
+    # row = db((db.invitation.group_id == request.params.get('user_id'))
+    #          & (db.follow.created_by == get_user())).select().first()
+    # status = row.status if row is not None else False
+    # u = []
+    # for user in users:
+    #     new_user = user['auth_user']
+    #     new_user['status'] = user['follow']['status']
+    #     u.append(new_user)
+    
     return dict(
         users=users,
         me=get_user()
     )
+
+@action("set_invite", method="POST")
+@action.uses(db, auth.user, url_signer.verify())
+def set_invite():
+    group_id = request.json.get('user_id')
+    status = request.json.get('status')
+    db.invitation.update_or_insert( 
+        ((db.invitation.group_id==group_id) & (db.invitation.created_by==get_user())),
+        group_id=group_id,
+        status=status
+    )
+    return "ok"
 
 @action('get_all_tasks')
 @action.uses(db, auth.user)
