@@ -130,3 +130,13 @@ def edit(task_id=None):
         # The update already happened!
         redirect(URL('index'))
     return dict(form=form) # if error/empty, just return the form again
+
+@action('delete/<task_id:int>')
+@action.uses(db, session, auth.user)
+def delete(task_id=None):
+    assert task_id is not None
+    # Check for correct permissions before editing
+    if db.task[task_id] is None or not db.task[task_id].created_by == get_user():
+        return HTTPStatus.BAD_REQUEST.name
+    db(db.task.id == task_id).delete()
+    redirect(URL('index'))
