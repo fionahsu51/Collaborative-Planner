@@ -21,22 +21,24 @@
          </ul>
       </div>
 
+      <!-- Input task title -->
       <p class="mt-2">Task Title</p>
       <input class="input has-fixed-size" placeholder="Add a task title" rows="2" v-model="new_task_title"></input>
 
+      <!-- Input task description -->
       <p class="mt-2">Task Description</p>
       <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
 
+      <!-- Select invitation -->
+      <div class="mt-2">
+         <span v-for="u in users">
+            <button class="button mr-4" v-show="!u.status" @click="new_task_invited_user=u">
+               <span>{{u.first_name}} {{u.last_name}}</span>
+            </button>
+         </span>
+      </div>
       
-      <span v-for="u in users">
-         <button class="button mr-4" v-show="!u.status" @click="set_invite(u._idx, true)">
-            <span>{{u.first_name}} {{u.last_name}}</span>
-         </button>
-         <!-- <button class="button mr-4" v-show="u.status" @click="set_invite(u._idx, false)">
-            <span>{{u.first_name}} {{u.last_name}}</span>
-         </button> -->
-      </span>
-      
+      <!-- Select date -->
       <p class="mt-2">Please choose a date to add the task to:</p>
       <div>
          <!-- Month dropdown -->
@@ -151,7 +153,7 @@
                <hr>
             </div>
 
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==day && r.task.created_by==me">
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==day && (r.task.invited_users && r.task.invited_users.includes(me) || r.task.created_by===me)">
                <header class="card-header">
                   <p class="card-header-title">
                      {{r.task.title}}

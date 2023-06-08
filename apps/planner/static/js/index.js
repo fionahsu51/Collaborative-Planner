@@ -17,6 +17,7 @@ let init = (app) => {
         new_task_date: "",
         new_task_year: "",
         new_task_js_date: new Date(),
+        new_task_invited_user: "", 
         new_task_invited_users: [],
         new_task_uninvited_users: [],
         users: [],
@@ -95,7 +96,7 @@ let init = (app) => {
                 description: app.vue.new_task_description,
                 date: [parseInt(app.vue.new_task_year, 10), app.vue.new_task_js_date.getMonth() + 1, parseInt(app.vue.new_task_date, 10)],
                 day: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
-                invited_users: parseInt(app.vue.new_task_invited_users),
+                invited_users: app.vue.new_task_invited_user.id,
             };
             axios.post("../create_task", message).then(function () {
                 app.vue.new_task_title = "";
@@ -104,7 +105,7 @@ let init = (app) => {
             });
         }
     };
-
+    
     app.set_invite = function(u_idx, s) {
         let user = app.vue.users[u_idx]; // map to the right place in users list
         user.status = s; // set its status
