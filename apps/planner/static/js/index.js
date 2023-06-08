@@ -17,6 +17,8 @@ let init = (app) => {
         new_task_date: "",
         new_task_year: "",
         new_task_js_date: new Date(),
+        new_task_invited_users: [],
+        users: [],
 
         errors: [],
         task_list: [],
@@ -37,6 +39,15 @@ let init = (app) => {
         let k = 0;
         a.map((e) => { e._idx = k++; });
         return a;
+    };
+
+    app.get_users = function () {
+        axios.get(get_users_url)
+            .then(function (response){
+                let users = response.data.users;
+                app.vue.users = users;
+                app.vue.me = response.data.me;
+            });
     };
 
     app.check_form = function () {
@@ -80,6 +91,7 @@ let init = (app) => {
                 description: app.vue.new_task_description,
                 date: [parseInt(app.vue.new_task_year, 10), app.vue.new_task_js_date.getMonth() + 1, parseInt(app.vue.new_task_date, 10)],
                 day: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
+                invited_users: parseInt(app.vue.new_task_invited_users),
             };
             axios.post("../create_task", message).then(function () {
                 app.vue.new_task_title = "";
@@ -121,6 +133,10 @@ let init = (app) => {
                 app.vue.me = response.data.me;
             });
     };
+    
+    app.check_invited_users = function () {
+
+    };
 
     // This contains all the methods.
     app.methods = {
@@ -131,6 +147,8 @@ let init = (app) => {
         today: app.today,
         next: app.next,
         get_all_tasks: app.get_all_tasks,
+        check_invited_users: app.check_invited_users,
+        get_users: app.get_users,
     };
 
     // This creates the Vue instance.
@@ -144,7 +162,8 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
-        app.get_all_tasks()
+        app.get_all_tasks();
+        app.get_users();
     };
 
     // Call to the initializer.

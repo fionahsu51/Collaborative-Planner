@@ -27,6 +27,13 @@
       <p class="mt-2">Task Description</p>
       <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
 
+      
+      <span v-for="u in users">
+         <button class="button mr-4" @click="">
+            <span>{{u.first_name}} {{u.last_name}}</span>
+         </button>
+      </span>
+      
       <p class="mt-2">Please choose a date to add the task to:</p>
       <div>
          <!-- Month dropdown -->
@@ -112,7 +119,7 @@
                <hr>
             </div>
 
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==days[current_day] && r.task.created_by==me">
+            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==days[current_day] && (r.task.created_by==me)">
                <header class="card-header">
                   <p class="card-header-title">
                      {{r.task.title}}
@@ -169,6 +176,7 @@
 <!-- Loads the index-specific js for Vue -->
 <script>
    var get_tasks_url = "[[=XML(get_tasks_url)]]";
+   var get_users_url = "[[=XML(get_users_url)]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]

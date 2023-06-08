@@ -154,3 +154,9 @@ success!
 timestamp: 2023-06-07T13:35:24.718482
 ALTER TABLE "task" ADD "day" CHAR(512);
 success!
+timestamp: 2023-06-07T19:36:15.833820
+ALTER TABLE "task" ADD "invited_users" CHAR(512);
+success!
+success!
+success!
+success!

@@ -48,6 +48,16 @@ def index():
     #return dict(rows=rows)
     return dict(
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
+        get_users_url = URL('get_users', signer=url_signer),
+    )
+
+@action('get_users')
+@action.uses(db, auth.user, url_signer)
+def get_users():
+    users = db(db.auth_user).select(db.auth_user.ALL).as_list()
+    return dict(
+        users=users,
+        me=get_user()
     )
 
 @action('get_all_tasks')
@@ -69,12 +79,14 @@ def create_task():
     description = request.json.get('description')
     date = request.json.get('date')
     day= request.json.get('day')
+    invited_users = request.json.get('invited_users')
     # print("- THE TITLE OF THE TASK IS :", title, "\n- THE DESCRIPTION IS: ", description)
     db.task.insert(
         title=title,
         description=description,
         date=date,
         day=day,
+        invited_users=invited_users
     )
     db.commit()
     return "ok"

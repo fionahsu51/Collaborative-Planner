@@ -34,6 +34,7 @@ db.define_table(
     Field('description'),
     Field('date'),
     Field('day'),
+    Field('invited_users'),
     auth.signature
 )
 db.task.id.readable = db.task.id.writable = False
