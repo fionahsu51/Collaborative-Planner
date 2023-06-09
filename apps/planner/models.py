@@ -28,6 +28,13 @@ def get_time():
 ## always commit your models to avoid problems later
 
 db.define_table(
+    'project',
+    Field('name'),
+    Field('color'),
+    auth.signature
+)
+
+db.define_table(
     'task',
     # Field('user_id', 'reference auth_user'),
     Field('title', requires=IS_NOT_EMPTY()),
@@ -35,6 +42,7 @@ db.define_table(
     Field('date'),
     Field('day'),
     Field('invited_users'),
+    Field('project', 'reference project'),
     auth.signature
 )
 db.task.id.readable = db.task.id.writable = False
@@ -42,18 +50,5 @@ db.task.created_on.readable = db.task.created_on.writable = False
 db.task.created_by.readable = db.task.created_by.writable = False
 db.task.modified_by.readable = db.task.modified_by.writable = False
 db.task.modified_on.readable = db.task.modified_on.writable = False
-
-db.define_table(
-    'invitation',
-    Field('group_id', 'reference auth_user'),
-    Field('status', 'boolean', default=False),
-    auth.signature
-)
-
-db.define_table(
-    'day',
-    Field('day_name'),
-    auth.signature
-)
 
 db.commit()

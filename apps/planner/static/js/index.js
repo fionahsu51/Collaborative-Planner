@@ -106,25 +106,6 @@ let init = (app) => {
         }
     };
     
-    app.set_invite = function(u_idx, s) {
-        let user = app.vue.users[u_idx]; // map to the right place in users list
-        user.status = s; // set its status
-        axios.post(invite_url, {user_id: user.id, status: s});
-        // reset_invited_list();
-    };
-
-    function reset_invited_list() {
-        app.vue.new_task_invited_users = [];
-        app.vue.new_task_uninvited_users = [];
-        for (let u of app.vue.users) {
-            if (u.status) {
-                app.vue.new_task_invited_users.push(u)
-            } else {
-                app.vue.new_task_uninvited_users.push(u)
-            }
-        }
-    }
-
     app.previous = function () {
         // This goes to the previous day/week/month of the view.
         if (app.vue.current_view === 'day') {
