@@ -32,7 +32,7 @@
       <!-- Select invitation -->
       <div class="mt-2">
          <span v-for="u in users">
-            <button class="button mr-4" v-show="!u.status" @click="new_task_invited_user=u">
+            <button class="button mr-4" :class="new_task_invited_users.includes(u.id) ? 'is-link' : 'is-light'" v-show="!u.status" @click="new_task_invited_users.includes(u.id) ? new_task_invited_users.splice(new_task_invited_users.indexOf(u.id)) : new_task_invited_users.push(u.id)">
                <span>{{u.first_name}} {{u.last_name}}</span>
             </button>
          </span>
@@ -85,6 +85,7 @@
          <div class="icon is-small is-left" :class="get_color()"><i class="fa fa-circle"></i></div>
       </div>
 
+      <!-- Submit button -->
       <div class="field mt-4">
          <div class="control">
             <a class="button is-link" @click="add_task">

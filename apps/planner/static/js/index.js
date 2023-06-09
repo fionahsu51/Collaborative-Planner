@@ -18,8 +18,8 @@ let init = (app) => {
         new_task_year: "",
         new_task_js_date: new Date(),
         new_task_project: "",
-        new_task_invited_user: "", 
         new_task_invited_users: [],
+        selected_user: false,
         users: [],
 
         errors: [],
@@ -117,7 +117,7 @@ let init = (app) => {
                 description: app.vue.new_task_description,
                 date: [parseInt(app.vue.new_task_year, 10), app.vue.new_task_js_date.getMonth() + 1, parseInt(app.vue.new_task_date, 10)],
                 day: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
-                invited_users: app.vue.new_task_invited_user.id,
+                invited_users: app.vue.new_task_invited_users,
             };
             axios.post("../create_task", message).then(function () {
                 app.vue.new_task_title = "";
