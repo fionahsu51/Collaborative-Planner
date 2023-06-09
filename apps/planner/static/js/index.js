@@ -17,15 +17,17 @@ let init = (app) => {
         new_task_date: "",
         new_task_year: "",
         new_task_js_date: new Date(),
+        new_task_project: "",
         new_task_invited_user: "", 
         new_task_invited_users: [],
-        new_task_uninvited_users: [],
         users: [],
 
         errors: [],
         task_list: [],
         project_list: [], 
         new_project: false,
+        new_project_color: "",
+        colors: ["Gray", "Blue", "Light blue", "Green", "Teal", "Yellow", "Red"],
         me: "",
 
         months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -85,6 +87,25 @@ let init = (app) => {
         let y = date.getFullYear(); 
         y -= (m + 1) < 3;
         return ((y + Math.floor(y/4) - Math.floor(y/100) + Math.floor(y/400) + t[m] + date.getDate()) % 7);
+    };
+
+    app.get_color = function () {
+        switch(app.vue.new_project_color) {
+            case "Gray":
+                return "has-text-grey";
+            case "Blue":
+                return "has-text-link";
+            case "Light blue":
+                return "has-text-info";
+            case "Green":
+                return "has-text-success";
+            case "Teal":
+                return "has-text-primary";
+            case "Yellow":
+                return "has-text-warning";
+            case "Red":
+                return "has-text-danger";
+        }
     };
     
     app.add_task = function () {
@@ -150,15 +171,14 @@ let init = (app) => {
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
+        get_users: app.get_users,
         get_day_from_date: app.get_day_from_date,
+        get_color: app.get_color,
         add_task: app.add_task,
         previous: app.previous,
         today: app.today,
         next: app.next,
         get_all_tasks: app.get_all_tasks,
-        check_invited_users: app.check_invited_users,
-        get_users: app.get_users,
-        set_invite: app.set_invite,
     };
 
     // This creates the Vue instance.

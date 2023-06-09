@@ -76,10 +76,13 @@
          </select>
       </div>
       <input class="mt-2 input has-fixed-size" v-if="new_project" placeholder="New project name" rows="2" v-model="new_task_project"></input>
-      <div class="select mt-2" v-if="new_project">
-         <select>
-            <option value="Gray">Gray</option>
-         </select>
+      <div class="control mt-2 has-icons-left" v-if="new_project">
+         <div class="select">
+            <select>
+               <option v-for="color in colors" value="color" @click="new_project_color=color">{{color}}</option>
+            </select>
+         </div>
+         <div class="icon is-small is-left" :class="get_color()"><i class="fa fa-circle"></i></div>
       </div>
 
       <div class="field mt-4">
@@ -196,6 +199,7 @@
 [[block page_scripts]]
 <!-- Loads the index-specific js for Vue -->
 <script>
+   var get_users_url = "[[=XML(get_users_url)]]";
    var get_tasks_url = "[[=XML(get_tasks_url)]]";
    var get_projects_url = "[[=XML(get_projects_url)]]";
 </script>

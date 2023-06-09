@@ -43,8 +43,19 @@ url_signer = URLSigner(session)
 @action.uses('index.html', db, auth.user, url_signer)
 def index():
     return dict(
+        get_users_url = URL('get_users', signer=url_signer),
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
         get_projects_url = URL('get_all_projects', signer=url_signer),
+    )
+
+@action('get_users')
+@action.uses(db, auth.user, url_signer)
+def get_users():
+    users = db(db.auth_user).select(db.auth_user.ALL).as_list()
+
+    return dict(
+        users=users,
+        me=get_user()
     )
 
 @action('get_all_tasks')
