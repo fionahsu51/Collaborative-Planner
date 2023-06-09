@@ -39,7 +39,7 @@
       </div>
       
       <!-- Select date -->
-      <p class="mt-2">Please choose a date to add the task to:</p>
+      <p class="mt-2">Choose a due date for the task:</p>
       <div>
          <!-- Month dropdown -->
          <div class="select">
@@ -64,6 +64,22 @@
                <option v-for="year in years" @click="new_task_year=year">{{year}}</option>
             </select>
          </div>
+      </div>
+
+      <!-- Select project -->
+      <p class="mt-2">Select a project for this task:</p>
+      <div class="select">
+         <select>
+            <option value="No project" @click="new_project=false">No project</option>
+            <option v-for="project in project_list" value="project" @click="new_task_project=project">{{project}}</option>
+            <option value="" @click="new_project=true">New project...</option>
+         </select>
+      </div>
+      <input class="mt-2 input has-fixed-size" v-if="new_project" placeholder="New project name" rows="2" v-model="new_task_project"></input>
+      <div class="select mt-2" v-if="new_project">
+         <select>
+            <option value="Gray">Gray</option>
+         </select>
       </div>
 
       <div class="field mt-4">
@@ -181,6 +197,7 @@
 <!-- Loads the index-specific js for Vue -->
 <script>
    var get_tasks_url = "[[=XML(get_tasks_url)]]";
+   var get_projects_url = "[[=XML(get_projects_url)]]";
 </script>
 <script src="js/index.js"></script>
 [[end]]

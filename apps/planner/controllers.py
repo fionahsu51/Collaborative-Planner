@@ -44,6 +44,7 @@ url_signer = URLSigner(session)
 def index():
     return dict(
         get_tasks_url = URL('get_all_tasks', signer=url_signer),
+        get_projects_url = URL('get_all_projects', signer=url_signer),
     )
 
 @action('get_all_tasks')
@@ -55,6 +56,14 @@ def get_all_tasks():
     return dict(
         r=r,
         me=get_user(),
+    )
+
+@action('get_all_projects')
+@action.uses(db, auth.user)
+def get_all_projects():
+    r = db(db.project).select().as_list()
+    return dict(
+        r=r,
     )
 
 @action('create_task', method="POST")

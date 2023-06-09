@@ -24,9 +24,9 @@ let init = (app) => {
 
         errors: [],
         task_list: [],
-        
+        project_list: [], 
+        new_project: false,
         me: "",
-        make_addition: "F",
 
         months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         dates: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"],
@@ -138,9 +138,13 @@ let init = (app) => {
                 app.vue.me = response.data.me;
             });
     };
-    
-    app.check_invited_users = function () {
 
+    app.get_all_projects = function () {
+        // This grabs all of the tasks from the database.
+        axios.get(get_projects_url)
+            .then(function (response) {
+                app.vue.project_list = response.data.r;
+            });
     };
 
     // This contains all the methods.
