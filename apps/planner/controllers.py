@@ -123,7 +123,7 @@ def create_task():
 def edit(task_id=None):
     assert task_id is not None
     # Check for correct permissions before editing
-    if db.task[task_id] is None or not db.task[task_id].created_by == get_user():
+    if not str(get_user()) in db.task[task_id].invited_users and not db.task[task_id].created_by == get_user():    
         return HTTPStatus.BAD_REQUEST.name
     p = db.task[task_id]
     if p is None:
