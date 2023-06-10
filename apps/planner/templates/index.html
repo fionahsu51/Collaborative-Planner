@@ -75,6 +75,14 @@
             <option value="New project" @click="new_project=true">New project...</option>
          </select>
       </div>
+      <!-- Edit/delete project -->
+      <a class="button is-warning" v-if="!new_project && new_task_project_name != ''" :href="'/planner/edit_project/' + new_task_project.id">
+         <div class="icon is-small"><i class="fa fa-pencil"></i></div>
+      </a>
+      <a class="button is-danger" v-if="!new_project && new_task_project_name != ''" :href="'/planner/delete_project/' + new_task_project.id">
+         <div class="icon is-small"><i class="fa fa-trash"></i></div>
+      </a>
+      <!-- Add project -->
       <input class="mt-2 input has-fixed-size" v-if="new_project" placeholder="New project name" rows="2" v-model="new_project_name"></input>
       <div class="control mt-2 has-icons-left" v-if="new_project">
          <div class="select">
@@ -98,12 +106,16 @@
 
    <!-- Planner -->
    <div class="container mt-6 has-text-left-fullhd">
+      <!-- Current month/year -->
+      <div class="has-text-centered">
+         <div class="content"><h3>{{months[current_date.getMonth()] + ' ' + current_date.getFullYear()}}</h3></div>
+      </div>
+
       <!-- Change views -->
       <nav class="breadcrumb is-right has-bullet-separator">
          <ul>
             <li><a @click="current_view='day'">Day</a></li>
             <li><a @click="current_view='week'">Week</a></li>
-            <li><a @click="current_view='month'">Month</a></li>
          </ul>
       </nav>
 
@@ -140,11 +152,12 @@
       <div class="columns" v-show="current_view == 'day'">
          <div class="column">
             <div class="has-text-centered">
-               <strong>{{days[current_day]}}</strong>
+               <div><strong>{{current_date.getDate()}}</strong></div>
+               <div><span>{{days[current_date.getDay()]}}</span></div>
                <hr>
             </div>
 
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==days[current_day] && (r.task.created_by==me)">
+            <div class="card mt-4" v-for="r in task_list" v-show="(new Date(r.task.date).toDateString()===current_date.toDateString()) && (r.task.invited_users && r.task.invited_users.includes(me) || r.task.created_by===me)">
                <header class="card-header">
                   <p class="card-header-title">
                      {{r.task.title}}
@@ -167,13 +180,14 @@
 
       <!-- Weekly View -->
       <div class="columns is-variable is-1" v-show="current_view == 'week'">
-         <div class="column" v-for="day in days">
+         <div class="column" v-for="date in current_week">
             <div class="has-text-centered">
-               <strong>{{day}}</strong>
+               <div><strong>{{date.getDate()}}</strong></div>
+               <div><span>{{days[date.getDay()]}}</span></div>
                <hr>
             </div>
 
-            <div class="card mt-4" v-for="r in task_list" v-show="r.task.day==day && (r.task.invited_users && r.task.invited_users.includes(me) || r.task.created_by===me)">
+            <div class="card mt-4" v-for="r in task_list" v-show="(new Date(r.task.date).toDateString()===date.toDateString()) && (r.task.invited_users && r.task.invited_users.includes(me) || r.task.created_by===me)">
                <header class="card-header">
                   <p class="card-header-title">
                      {{r.task.title}}

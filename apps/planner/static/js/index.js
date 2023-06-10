@@ -36,7 +36,8 @@ let init = (app) => {
         dates: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"],
         years: ["2023", "2024", "2025", "2026", "2027"],
         days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        current_day: new Date().getDay(),
+        current_date: new Date(),
+        current_week: [],
         current_view: "week",
     };
 
@@ -47,6 +48,19 @@ let init = (app) => {
             e._idx = k++; 
         });
         return a;
+    };
+
+    app.get_current_week = function () {
+
+        app.vue.current_week = [];
+        let current_day = app.vue.current_date.getDay()
+        let time = app.vue.current_date.getTime();
+        for (let i = 0; i < current_day; i++) {
+            app.vue.current_week.push(new Date(time - (current_day - i) * 86400000));
+        }
+        for (let i = current_day; i < 7; i++) {
+            app.vue.current_week.push(new Date(time + (i - current_day) * 86400000));
+        }
     };
 
     app.get_users = function () {
@@ -142,8 +156,7 @@ let init = (app) => {
             const message = { 
                 title: app.vue.new_task_title, 
                 description: app.vue.new_task_description,
-                date: [parseInt(app.vue.new_task_year, 10), app.vue.new_task_js_date.getMonth() + 1, parseInt(app.vue.new_task_date, 10)],
-                day: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
+                date: app.vue.new_task_month + " " + app.vue.new_task_date + ", " + app.vue.new_task_year + " " + "00:00:00",
                 invited_users: app.vue.new_task_invited_users,
                 new_project: app.vue.new_project,
                 project: app.vue.new_task_project.id, 
@@ -167,26 +180,39 @@ let init = (app) => {
     
     app.previous = function () {
         // This goes to the previous day/week/month of the view.
+        let time = app.vue.current_date.getTime();
         if (app.vue.current_view === 'day') {
-            app.vue.current_day -= 1;
-            if (app.vue.current_day < 0) {
-                app.vue.current_day = 6;
-            }
+            time -= 86400000;
+            app.vue.current_date = new Date(time);
+        } else if (app.vue.current_view === 'week') {
+            time -= 7 * 86400000;
+            app.vue.current_date = new Date(time);
         }
+        app.get_current_week();
     };
 
     app.today = function () {
         // This goes to the current day/week/month of the view.
-        if (app.vue.current_view === 'day') {
-            app.vue.current_day = new Date().getDay();
+        app.vue.current_date = new Date();
+        if (app.vue.current_view === 'week') {
+            app.vue.get_current_week();
         }
     };
 
     app.next = function () {
         // This goes to the next day/week/month of the view.
+        let time = app.vue.current_date.getTime();
         if (app.vue.current_view === 'day') {
-            app.vue.current_day = (app.vue.current_day + 1) % 7;
+            time += 86400000;
+            app.vue.current_date = new Date(time);
+        } else if (app.vue.current_view === 'week') {
+            time += 7 * 86400000;
+            app.vue.current_date = new Date(time);
         }
+        app.vue.get_current_week();
+        // if (app.vue.current_view === 'day') {
+            // app.vue.current_day = (app.vue.current_day + 1) % 7;
+        // }
     };
 
     app.get_all_tasks = function () {
@@ -209,6 +235,7 @@ let init = (app) => {
     // This contains all the methods.
     app.methods = {
         // Complete as you see fit.
+        get_current_week: app.get_current_week,
         get_users: app.get_users,
         get_day_from_date: app.get_day_from_date,
         get_color: app.get_color,
@@ -231,6 +258,7 @@ let init = (app) => {
     app.init = () => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
+        app.get_current_week();
         app.get_all_tasks();
         app.get_all_projects();
         app.get_users();

@@ -45,7 +45,6 @@ db.define_table(
     Field('title', requires=IS_NOT_EMPTY()),
     Field('description'),
     Field('date'),
-    Field('day'),
     Field('invited_users'),
     Field('project', 'reference project'),
     auth.signature
