@@ -18,6 +18,7 @@ let init = (app) => {
         new_task_year: "",
         new_task_js_date: new Date(),
         new_task_project: "",
+        new_task_project_name: "",
         new_task_invited_users: [],
         selected_user: false,
         users: [],
@@ -117,7 +118,7 @@ let init = (app) => {
         axios.post("../create_project", message).then(function() {
             app.vue.new_project = false;
             app.vue.new_project_name = "";
-            app.vue.new_project_color = "";
+            app.vue.new_project_color = "Gray";
             app.get_all_projects();
         });
     }
@@ -151,6 +152,7 @@ let init = (app) => {
                 app.vue.new_task_title = "";
                 app.vue.new_task_description = "";
                 app.vue.new_task_project = "";
+                app.vue.new_task_project_name = "";
                 app.vue.new_task_day = "",
                 app.vue.new_task_month = "",
                 app.vue.new_task_date = "",

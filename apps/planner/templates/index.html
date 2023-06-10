@@ -43,7 +43,7 @@
       <div>
          <!-- Month dropdown -->
          <div class="select">
-            <select>
+            <select v-model="new_task_month">
                <option value="">Month</option>
                <option v-for="month in months" @click="new_task_month=month">{{month}}</option>
             </select>
@@ -51,7 +51,7 @@
 
          <!-- Date dropdown -->
          <div class="select">
-            <select>
+            <select v-model="new_task_date">
                <option value="">Day</option>
                <option v-for="date in dates" @click="new_task_date=date">{{date}}</option>
             </select>
@@ -59,7 +59,7 @@
 
          <!-- Year dropdown -->
          <div class="select">
-            <select>
+            <select v-model="new_task_year">
                <option value="">Year</option>
                <option v-for="year in years" @click="new_task_year=year">{{year}}</option>
             </select>
@@ -69,17 +69,17 @@
       <!-- Select project -->
       <p class="mt-2">Select a project for this task:</p>
       <div class="select">
-         <select>
-            <option value="No project" @click="new_project=false">No project</option>
-            <option v-for="project in project_list" value="project" @click="new_task_project=project; new_project=false">{{project.name}}</option>
-            <option value="" @click="new_project=true">New project...</option>
+         <select v-model="new_task_project_name">
+            <option value="" @click="new_project=false">No project</option>
+            <option v-for="project in project_list" @click="new_task_project=project; new_project=false">{{project.name}}</option>
+            <option value="New project" @click="new_project=true">New project...</option>
          </select>
       </div>
       <input class="mt-2 input has-fixed-size" v-if="new_project" placeholder="New project name" rows="2" v-model="new_project_name"></input>
       <div class="control mt-2 has-icons-left" v-if="new_project">
          <div class="select">
-            <select>
-               <option v-for="color in colors" value="color" @click="new_project_color=color">{{color}}</option>
+            <select v-model="new_project_color">
+               <option v-for="color in colors" @click="new_project_color=color">{{color}}</option>
             </select>
          </div>
          <div class="icon is-small is-left" :class="get_color()"><i class="fa fa-circle"></i></div>
