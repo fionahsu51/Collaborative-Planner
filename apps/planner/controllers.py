@@ -152,3 +152,30 @@ def delete(task_id=None):
         return HTTPStatus.BAD_REQUEST.name
     db(db.task.id == task_id).delete()
     redirect(URL('index'))
+
+@action('edit_project/<project_id:int>', method=["GET", "POST"])
+@action.uses(db, session, auth.user, 'edit_project.html')
+def edit_project(project_id=None):
+    assert project_id is not None
+    # Check for correct permissions before editing
+    if db.project[project_id] is None or not db.project[project_id].created_by == get_user():
+        return HTTPStatus.BAD_REQUEST.name
+    p = db.project[project_id]
+    if p is None:
+        # Nothing found to be edited
+        redirect(URL('index'))
+    form = Form(db.project, record=p, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
+    if form.accepted:
+        # The update already happened!
+        redirect(URL('index'))
+    return dict(form=form) 
+
+@action('delete_project/<project_id:int>')
+@action.uses(db, session, auth.user)
+def delete_project(project_id=None):
+    assert project_id is not None
+    # Check for correct permissions before editing
+    if db.project[project_id] is None or not db.project[project_id].created_by == get_user():
+        return HTTPStatus.BAD_REQUEST.name
+    db(db.project.id == project_id).delete()
+    redirect(URL('index'))

@@ -29,10 +29,15 @@ def get_time():
 
 db.define_table(
     'project',
-    Field('name'),
-    Field('color'),
+    Field('name', requires=IS_NOT_EMPTY()),
+    Field('color', requires=[IS_NOT_EMPTY(), IS_IN_SET(['Gray', 'Blue', 'Light blue', 'Green', 'Teal', 'Yellow', 'Red'])]),
     auth.signature
 )
+db.project.id.readable = db.project.id.writable = False
+db.project.created_on.readable = db.project.created_on.writable = False
+db.project.created_by.readable = db.project.created_by.writable = False
+db.project.modified_by.readable = db.project.modified_by.writable = False
+db.project.modified_on.readable = db.project.modified_on.writable = False
 
 db.define_table(
     'task',
