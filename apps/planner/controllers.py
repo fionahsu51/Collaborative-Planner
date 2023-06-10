@@ -78,6 +78,18 @@ def get_all_projects():
         r=r,
     )
 
+@action('create_project', method="POST")
+@action.uses(db, auth.user)
+def create_project():
+    name = request.json.get('name')
+    color = request.json.get('color')
+    db.project.insert(
+        name=name,
+        color=color,
+    )
+    db.commit()
+    return "ok"
+
 @action('create_task', method="POST")
 @action.uses(db, auth.user)
 def create_task():
@@ -87,6 +99,11 @@ def create_task():
     date = request.json.get('date')
     day= request.json.get('day')
     invited_users = request.json.get('invited_users')
+    new_project = request.json.get('new_project')
+    project = request.json.get('project')
+    # If a new project was inserted
+    if (new_project): 
+        project = db(db.project).select().last()
     # print("- THE TITLE OF THE TASK IS :", title, "\n- THE DESCRIPTION IS: ", description)
     db.task.insert(
         title=title,
@@ -94,6 +111,7 @@ def create_task():
         date=date,
         day=day,
         invited_users=invited_users,
+        project=project.id + 1,
     )
     db.commit()
     return "ok"

@@ -32,7 +32,7 @@
       <!-- Select invitation -->
       <div class="mt-2">
          <span v-for="u in users">
-            <button class="button mr-4" :class="new_task_invited_users.includes(u.id) ? 'is-link' : 'is-light'" v-show="!u.status" @click="new_task_invited_users.includes(u.id) ? new_task_invited_users.splice(new_task_invited_users.indexOf(u.id)) : new_task_invited_users.push(u.id)">
+            <button class="button mr-4" :class="new_task_invited_users.includes(u.id) ? 'is-link' : 'is-light'" v-show="!u.status" @click="new_task_invited_users.includes(u.id) ? new_task_invited_users.splice(new_task_invited_users.indexOf(u.id), 1) : new_task_invited_users.push(u.id)">
                <span>{{u.first_name}} {{u.last_name}}</span>
             </button>
          </span>
@@ -71,7 +71,7 @@
       <div class="select">
          <select>
             <option value="No project" @click="new_project=false">No project</option>
-            <option v-for="project in project_list" value="project" @click="new_task_project=project">{{project.name}}</option>
+            <option v-for="project in project_list" value="project" @click="new_task_project=project; new_project=false">{{project.name}}</option>
             <option value="" @click="new_project=true">New project...</option>
          </select>
       </div>

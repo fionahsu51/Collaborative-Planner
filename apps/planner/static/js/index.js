@@ -28,7 +28,7 @@ let init = (app) => {
         project_list: [], 
         new_project: false,
         new_project_name: "",
-        new_project_color: "",
+        new_project_color: "Gray",
         colors: ["Gray", "Blue", "Light blue", "Green", "Teal", "Yellow", "Red"],
 
         months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -144,12 +144,19 @@ let init = (app) => {
                 date: [parseInt(app.vue.new_task_year, 10), app.vue.new_task_js_date.getMonth() + 1, parseInt(app.vue.new_task_date, 10)],
                 day: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
                 invited_users: app.vue.new_task_invited_users,
-                project: app.vue.new_task_project, 
+                new_project: app.vue.new_project,
+                project: app.vue.new_task_project.id, 
             };
             axios.post("../create_task", message).then(function () {
                 app.vue.new_task_title = "";
                 app.vue.new_task_description = "";
                 app.vue.new_task_project = "";
+                app.vue.new_task_day = "",
+                app.vue.new_task_month = "",
+                app.vue.new_task_date = "",
+                app.vue.new_task_year = "",
+                app.vue.new_task_invited_users = [],
+                app.vue.selected_user = false,
                 app.get_all_tasks();
                 app.get_all_projects();
             });
