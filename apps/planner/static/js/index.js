@@ -23,12 +23,13 @@ let init = (app) => {
         users: [],
 
         errors: [],
+        me: "",
         task_list: [],
         project_list: [], 
         new_project: false,
+        new_project_name: "",
         new_project_color: "",
         colors: ["Gray", "Blue", "Light blue", "Green", "Teal", "Yellow", "Red"],
-        me: "",
 
         months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         dates: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"],
@@ -108,9 +109,34 @@ let init = (app) => {
         }
     };
     
+    app.add_project = function (project) {
+        const message = {
+            name: project.name,
+            color: project.color,
+        };
+        axios.post("../create_project", message).then(function() {
+            app.vue.new_project = false;
+            app.vue.new_project_name = "";
+            app.vue.new_project_color = "";
+            app.get_all_projects();
+        });
+    }
+    
     app.add_task = function () {
         // This adds a task using data from the form fields.
         app.check_form();
+        
+        // Push new project to project_list if existing 
+        if (app.vue.new_project) {
+            let project = {
+                name: app.vue.new_project_name,
+                color: app.vue.new_project_color
+            };
+            app.add_project(project);
+            app.vue.project_list.push(project);
+        }
+
+        // Add the task
         if (!app.vue.errors.length) {
             const message = { 
                 title: app.vue.new_task_title, 
@@ -118,11 +144,14 @@ let init = (app) => {
                 date: [parseInt(app.vue.new_task_year, 10), app.vue.new_task_js_date.getMonth() + 1, parseInt(app.vue.new_task_date, 10)],
                 day: app.vue.days[app.get_day_from_date(app.vue.new_task_js_date)],
                 invited_users: app.vue.new_task_invited_users,
+                project: app.vue.new_task_project, 
             };
             axios.post("../create_task", message).then(function () {
                 app.vue.new_task_title = "";
                 app.vue.new_task_description = "";
+                app.vue.new_task_project = "";
                 app.get_all_tasks();
+                app.get_all_projects();
             });
         }
     };
@@ -179,6 +208,7 @@ let init = (app) => {
         today: app.today,
         next: app.next,
         get_all_tasks: app.get_all_tasks,
+        get_all_projects: app.get_all_projects,
     };
 
     // This creates the Vue instance.
@@ -193,6 +223,7 @@ let init = (app) => {
         // Put here any initialization code.
         // Typically this is a server GET call to load the data.
         app.get_all_tasks();
+        app.get_all_projects();
         app.get_users();
     };
 

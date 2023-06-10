@@ -71,11 +71,11 @@
       <div class="select">
          <select>
             <option value="No project" @click="new_project=false">No project</option>
-            <option v-for="project in project_list" value="project" @click="new_task_project=project">{{project}}</option>
+            <option v-for="project in project_list" value="project" @click="new_task_project=project">{{project.name}}</option>
             <option value="" @click="new_project=true">New project...</option>
          </select>
       </div>
-      <input class="mt-2 input has-fixed-size" v-if="new_project" placeholder="New project name" rows="2" v-model="new_task_project"></input>
+      <input class="mt-2 input has-fixed-size" v-if="new_project" placeholder="New project name" rows="2" v-model="new_project_name"></input>
       <div class="control mt-2 has-icons-left" v-if="new_project">
          <div class="select">
             <select>
