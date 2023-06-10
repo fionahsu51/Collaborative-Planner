@@ -27,6 +27,7 @@ Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app w
 
 from py4web import action, request, abort, redirect, URL
 from yatl.helpers import A
+from py4web.core import Field
 
 from py4web.utils.form import FormStyleBulma, Form
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
@@ -92,7 +93,7 @@ def create_task():
         description=description,
         date=date,
         day=day,
-        invited_users=invited_users
+        invited_users=invited_users,
     )
     db.commit()
     return "ok"
@@ -112,6 +113,13 @@ def edit(task_id=None):
 
     #edit form, has records
     form = Form(db.task, record=p, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
+
+    
+    # if request.method == "Post":
+    #     return dict()
+    # else:
+    #     print("Title:", request.json.get('title'), "Desciption:", request.json.get('description'), "Date:", request.json.get('day'))
+    #     redirect(URL('index'))
     if form.accepted:
         # The update already happened!
         redirect(URL('index'))

@@ -1,14 +1,42 @@
 [[extend 'layout.html']]
 
-<div class="section">
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
+<div class="section" id="vue-target">
     <h1 class="title">Edit a task</h1>
     [[=form]]
+    <!-- <h1 class="title">Edit a task</h1>
+
+    <div class="section">
+        <div>Title:</div>
+            <div>
+                <form action="[[=URL('edit')]]" method="POST">
+                    <div class="field">
+                        
+                        <input class="input" type="text" name="Title" placeholder="Insert Title" />
+                    </div>
+            </div>
+        </div>
     <div>
+    
+        <div>Desciption:</div>
+            <div>
+                    <div class="field">
+                        <input class="input" type="text" name="Title" placeholder="Insert Title" />
+                    </div>
+            </div>
+        </div>
+    <div>
+        -->
         <!-- Month dropdown -->
         <div class="select">
             <select>
                 <option value="">Month</option>
-                <option v-for="month in months" @click="new_task_month=month">{{month}}</option>
+                <option v-for="month in months" @click="new_task_month=month">{{months}}</option>
             </select>
         </div>
 
@@ -27,6 +55,16 @@
                 <option v-for="year in years" @click="new_task_year=year">{{year}}</option>
             </select>
         </div>
+    </div>
+
+        <!-- <div class="field mt-4"></div>
+        <div class="control">
+            <a class="button is-link" @click="add_task">
+                <span class="icon is-small"><i class="fa fa-plus"></i></span>
+                <span>Submit</span>
+            </a>
         </div>
+        </div>
+    </form> -->
 </div>
 
