@@ -30,13 +30,12 @@
       <textarea class="textarea has-fixed-size" placeholder="Add a task description" rows="2" v-model="new_task_description"></textarea>
 
       <!-- Select invitation -->
-      <div class="mt-2">
-         <span v-for="u in users">
-            <button class="button mr-4" :class="new_task_invited_users.includes(u.id) ? 'is-link' : 'is-light'" v-show="!u.status" @click="new_task_invited_users.includes(u.id) ? new_task_invited_users.splice(new_task_invited_users.indexOf(u.id), 1) : new_task_invited_users.push(u.id)">
-               <span>{{u.first_name}} {{u.last_name}}</span>
-            </button>
-         </span>
-      </div>
+      <p class="mt-2">Select users to invite to the task:</p>
+      <span v-for="u in users">
+         <button class="button mr-4" :class="new_task_invited_users.includes(u.id) ? 'is-link' : 'is-light'" v-show="!u.status" @click="new_task_invited_users.includes(u.id) ? new_task_invited_users.splice(new_task_invited_users.indexOf(u.id), 1) : new_task_invited_users.push(u.id)">
+            <span>{{u.first_name}} {{u.last_name}}</span>
+         </button>
+      </span>
       
       <!-- Select date -->
       <p class="mt-2">Choose a due date for the task:</p>
@@ -90,7 +89,7 @@
                <option v-for="color in colors" @click="new_project_color=color">{{color}}</option>
             </select>
          </div>
-         <div class="icon is-small is-left" :class="get_color()"><i class="fa fa-circle"></i></div>
+         <div class="icon is-small is-left" :class="get_color"><i class="fa fa-circle"></i></div>
       </div>
 
       <!-- Submit button -->
@@ -159,6 +158,7 @@
 
             <div class="card mt-4" v-for="r in task_list" v-show="(new Date(r.task.date).toDateString()===current_date.toDateString()) && (r.task.invited_users && r.task.invited_users.includes(me) || r.task.created_by===me)">
                <header class="card-header">
+                  <div v-if="r.task.project" class="icon is-small is-left" :class="get_color"><i class="fa fa-circle"></i></div>
                   <p class="card-header-title">
                      {{r.task.title}}
                   </p>
@@ -189,9 +189,10 @@
 
             <div class="card mt-4" v-for="r in task_list" v-show="(new Date(r.task.date).toDateString()===date.toDateString()) && (r.task.invited_users && r.task.invited_users.includes(me) || r.task.created_by===me)">
                <header class="card-header">
-                  <p class="card-header-title">
-                     {{r.task.title}}
-                  </p>
+                  <div class="card-header-title">
+                     <span v-if="r.task.project" class="mr-2 icon is-small is-left" :class="get_color"><i class="fa fa-circle"></i></span>
+                     <span>{{r.task.title}}</span>
+                  </div>
                </header>
                <div class="card-content">
                   <div class="content">

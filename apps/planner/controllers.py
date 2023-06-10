@@ -99,6 +99,7 @@ def create_task():
     invited_users = request.json.get('invited_users')
     new_project = request.json.get('new_project')
     project = request.json.get('project')
+    project_color = request.json.get('project_color');
 
     # If a new project was inserted
     if (new_project): 
@@ -111,7 +112,7 @@ def create_task():
         description=description,
         date=date,
         invited_users=invited_users,
-        project=project, 
+        project=project,
     )
     db.commit()
     return "ok"

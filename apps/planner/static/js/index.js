@@ -160,6 +160,7 @@ let init = (app) => {
                 invited_users: app.vue.new_task_invited_users,
                 new_project: app.vue.new_project,
                 project: app.vue.new_task_project.id, 
+                project_color: app.vue.new_task_project.color,
             };
             axios.post("../create_task", message).then(function () {
                 app.vue.new_task_title = "";
@@ -228,6 +229,7 @@ let init = (app) => {
         // This grabs all of the tasks from the database.
         axios.get(get_projects_url)
             .then(function (response) {
+                app.enumerate(response.data.r);
                 app.vue.project_list = response.data.r;
             });
     };
